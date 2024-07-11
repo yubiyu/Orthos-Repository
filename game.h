@@ -31,26 +31,9 @@ struct Game
     static void Uninitialize();
 
     static void InputSwitchboard();
-    static void TitleInput();
-    static void StageInput();
-    static void SettingsInput();
-    static void ArchiveInput();
-
     static void LogicSwitchboard();
-    static void TitleSceneLogic();
-    static void StageSceneLogic();
-    static void SettingsSceneLogic();
-    static void ArchiveSceneLogic();
-
     static void DrawingSwitchboard();
-    static void TitleSceneDrawing();
-    static void StageSceneDrawing();
-    static void SettingsSceneDrawing();
-    static void ArchiveSceneDrawing();
 
-    static void DrawDebugGrid();
-    static void DrawDebugGridCameraCrosshair();
-    static void DrawDebugGridText(/*float mouseTransformedX, float mouseTransformedY*/);
 };
 
 #endif // GAME_H_INCLUDED

@@ -3,6 +3,11 @@
 
 #include "ship.h"
 
+#include "bullet.h"
+#include "emitter.h"
+
+#include <cmath>
+
 class NPC : public Ship
 {
     /// Behaviour
@@ -19,28 +24,15 @@ class NPC : public Ship
     int moveAIRoutine;
     float xDestination, yDestination;
 
-    enum enumAttackAI
-    {
-
-    };
-
-    int attackAIRoutine;
-
-/// Linkage
-    bool isLinked;      // Ship is part of a link.
-    std::vector<Ship*>linkedShips;
-
-/// Subordinates
-    bool hasSubordinateShips;      // This ship directs the movements of subordinate ships.
-    std::vector<Ship*>subordinateShips;
-
-/// Load-bearing
-    bool isLoadBearing; // Destruction of this ship destroys all ships it is load bearing for.
-    std::vector<Ship*>loadShips;
-    int loadBearingDestructionDelay; // Grace period before load ships are destroyed.
+    Emitter *mainEmitter;
 
 
 public:
+    enum enumNPCHulls
+    {
+        HULL_NPC_OCELLUS = 0
+    };
+
     NPC();
     ~NPC();
 

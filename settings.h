@@ -2,7 +2,15 @@
 #define SETTINGS_H_INCLUDED
 
 #include "display.h"
+#include "keyboard.h"
+
+#include "image.h"
+#include "font.h"
 #include "audio.h"
+
+#include "scene.h"
+
+#include "palette.h"
 #include "hax.h"
 
 #include <string>
@@ -46,6 +54,10 @@ struct Settings
     static constexpr float VOLUME_BAR_HEIGHT = 32;
 
     static void Initialize();
+
+    static void Logic();
+    static void Input();
+    static void Drawing();
 
     static void RecalculateOptionMarkerX();
 

@@ -28,6 +28,8 @@ struct Audio
     static void SetBgmGain(float gain);
     static void SetSfxGain(float gain);
 
+    static void AddSfx(int whichSfx);
+
     static void Logic();
 };
 

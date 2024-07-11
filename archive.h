@@ -2,6 +2,14 @@
 #define ARCHIVE_H_INCLUDED
 
 #include "display.h"
+#include "keyboard.h"
+
+#include "font.h"
+
+#include "scene.h"
+
+#include "palette.h"
+#include "hax.h"
 
 #include <string>
 
@@ -16,6 +24,10 @@ struct Archive
     {
         returnToTitleString = "Press [ESC / Enter] to return to title.";
     }
+
+    static void Logic();
+    static void Input();
+    static void Drawing();
 };
 
 #endif // ARCHIVE_H_INCLUDED

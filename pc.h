@@ -3,13 +3,25 @@
 
 #include "ship.h"
 
+#include "bullet.h"
+#include "emitter.h"
+
+#include <cmath>
+
 class PC : public Ship
 {
+    Emitter* mainEmitter;
+    Emitter* lockonEmitter;
+    Emitter* bombEmitter;
+
 public:
     enum enumPCHulls
     {
-        HULL_PC_ORTHOS = 0,
-        HULL_PC_LITHOS = 1,
+        HULL_PC_ORTHOS_A = 0,
+        HULL_PC_ORTHOS_B = 1,
+
+        HULL_PC_LITHOS_A = 2,
+        HULL_PC_LITHOS_B = 3
     };
 
     PC();

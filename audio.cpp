@@ -67,6 +67,23 @@ void Audio::SetSfxGain(float gain)
     sfxGain = gain;
 }
 
+void Audio::AddSfx(int whichSfx)
+{
+    ALLEGRO_SAMPLE_INSTANCE*sfx;
+
+    switch(whichSfx)
+    {
+        default:
+        sfx = al_create_sample_instance(Audio::genericLaserShootWav);
+        break;
+    }
+
+    al_set_sample_instance_gain(sfx, Audio::sfxGain);
+    al_attach_sample_instance_to_mixer(sfx, al_get_default_mixer());
+    Audio::activeSfxInstances.push_back(sfx);
+    al_play_sample_instance(sfx);
+}
+
 void Audio::Logic()
 {
     for(std::vector<ALLEGRO_SAMPLE_INSTANCE*>::iterator it = activeSfxInstances.begin(); it != activeSfxInstances.end();)

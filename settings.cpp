@@ -35,6 +35,97 @@ void Settings::Initialize()
     SetSfxBars(6);
 }
 
+void Settings::Logic()
+{
+
+}
+
+void Settings::Input()
+{
+    if(Keyboard::keyHoldTicks[Keyboard::KEY_UP] == 1)
+    {
+        Settings::AdjustTargetedOptionUp();
+    }
+    else if(Keyboard::keyHoldTicks[Keyboard::KEY_DOWN] == 1)
+    {
+        Settings::AdjustTargetedOptionDown();
+    }
+
+    if(Keyboard::keyHoldTicks[Keyboard::KEY_LEFT] == 1)
+    {
+        if(Settings::targetedOption == Settings::OPTION_BGM_LEVEL)
+        {
+            Settings::SetBgmBars(Settings::bgmBars - 1);
+        }
+        else if(Settings::targetedOption == Settings::OPTION_SFX_LEVEL)
+        {
+            Settings::SetSfxBars(Settings::sfxBars - 1);
+        }
+    }
+    else if(Keyboard::keyHoldTicks[Keyboard::KEY_RIGHT] == 1)
+    {
+        if(Settings::targetedOption == Settings::OPTION_BGM_LEVEL)
+        {
+            Settings::SetBgmBars(Settings::bgmBars + 1);
+        }
+        else if(Settings::targetedOption == Settings::OPTION_SFX_LEVEL)
+        {
+            Settings::SetSfxBars(Settings::sfxBars + 1);
+        }
+    }
+
+    if(Keyboard::keyHoldTicks[Keyboard::KEY_ESC] == 1)
+    {
+        Settings::SetTargetedOption(Settings::OPTION_RETURN_TO_TITLE);
+    }
+    else if(Keyboard::keyHoldTicks[Keyboard::KEY_ENTER] == 1)
+    {
+        if(Settings::targetedOption == Settings::OPTION_GLOBAL_MUTE)
+        {
+
+        }
+        else if(Settings::targetedOption == Settings::OPTION_RETURN_TO_TITLE)
+        {
+            Scene::ChangeScene(Scene::SCENE_TITLE);
+        }
+    }
+}
+
+void Settings::Drawing()
+{
+    al_draw_bitmap(Image::titleOptionMarkerPng,
+                   Settings::optionTextX[Settings::targetedOption] - Settings::optionMarkerLeftX,
+                   Settings::optionTextY[Settings::targetedOption],
+                   0);
+
+    for(int i = 0; i < Settings::NUM_OPTIONS; i++)
+    {
+        Hax::string_al_draw_text(Font::monogram32, COLKEY_TEXT_LIGHT,
+                                 Settings::optionTextX[i], Settings::optionTextY[i],
+                                 ALLEGRO_ALIGN_LEFT | ALLEGRO_ALIGN_INTEGER, Settings::optionStrings[i]);
+    }
+
+    al_draw_bitmap(Image::settingsVolumeBarEmptyPng,
+                   Settings::VOLUME_BARS_X, Settings::optionTextY[Settings::OPTION_BGM_LEVEL],
+                   0);
+
+    al_draw_bitmap_region(Image::settingsVolumeBarPng,
+                          0,0,
+                          Settings::bgmBarsTotalWidth, Settings::VOLUME_BAR_HEIGHT,
+                          Settings::VOLUME_BARS_X, Settings::optionTextY[Settings::OPTION_BGM_LEVEL],
+                          0);
+
+    al_draw_bitmap(Image::settingsVolumeBarEmptyPng,
+                   Settings::VOLUME_BARS_X, Settings::optionTextY[Settings::OPTION_SFX_LEVEL],
+                   0);
+
+    al_draw_bitmap_region(Image::settingsVolumeBarPng,
+                          0,0,
+                          Settings::sfxBarsTotalWidth, Settings::VOLUME_BAR_HEIGHT,
+                          Settings::VOLUME_BARS_X, Settings::optionTextY[Settings::OPTION_SFX_LEVEL],
+                          0);
+}
+
 void Settings::RecalculateOptionMarkerX()
 {
     optionMarkerLeftX = OPTION_MARKER_SPRITE_WIDTH + OPTION_MARKER_SPRITE_X_SPACING;

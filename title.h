@@ -1,8 +1,15 @@
 #ifndef TITLE_H_INCLUDED
 #define TITLE_H_INCLUDED
 
+#include "keyboard.h"
 #include "display.h"
+
+#include "image.h"
 #include "font.h"
+
+#include "scene.h"
+
+#include "palette.h"
 #include "hax.h"
 
 #include <string>
@@ -34,8 +41,13 @@ struct Title
     static constexpr float OPTION_MARKER_SPRITE_X_SPACING = 8;
 
     static int targetedOption;
+    static bool exitOptionSelected;
 
     static void Initialize();
+
+    static void Logic();
+    static void Input();
+    static void Drawing();
 
     static void RecalculateOptionMarkerX();
 

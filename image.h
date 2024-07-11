@@ -17,6 +17,12 @@ struct Image
     static ALLEGRO_BITMAP *settingsVolumeBarPng;
     static ALLEGRO_BITMAP *settingsVolumeBarEmptyPng;
 
+    static ALLEGRO_BITMAP *pcShipPng;
+    static ALLEGRO_BITMAP *pcShipSub[4];
+
+    static ALLEGRO_BITMAP *bulletPng;
+    static ALLEGRO_BITMAP *bulletSub[4];
+
     static void Initialize();
     static void Uninitialize();
 

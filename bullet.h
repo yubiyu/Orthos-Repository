@@ -13,9 +13,14 @@ public:
     enum enumBulletForms
     {
         BULLET_FORM_ROUND = 0,
+
         BULLET_FORM_BEAM = 1,
+
         BULLET_FORM_ARROW = 2,
         BULLET_FORM_LARGE_ARROW = 3
+
+        //BULLET_FORM_DIAMOND = 4,
+        //BULLET_FORM_RECTANGLE = 5
     };
 
     Bullet();

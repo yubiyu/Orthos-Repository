@@ -27,6 +27,10 @@ void Camera::Initialize()
     zoomTranslateY = 0;
 
     atDestination = true;
+
+
+    Camera::SetCell(0, 0);
+    Camera::WarpToDestination();
 }
 
 void Camera::Uninitialize()
