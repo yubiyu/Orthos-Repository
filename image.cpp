@@ -13,6 +13,9 @@ ALLEGRO_BITMAP* Image::settingsVolumeBarEmptyPng;
 ALLEGRO_BITMAP* Image::pcShipPng;
 ALLEGRO_BITMAP* Image::pcShipSub[4];
 
+ALLEGRO_BITMAP *Image::npcShipPng;
+ALLEGRO_BITMAP *Image::npcShipSub[4];
+
 ALLEGRO_BITMAP* Image::bulletPng;
 ALLEGRO_BITMAP* Image::bulletSub[4];
 
@@ -47,6 +50,11 @@ void Image::LoadResources()
     for(int i = 0; i < 4; i++)
         pcShipSub[i] = al_create_sub_bitmap(pcShipPng, i*64, 0, 64, 64);
 
+    npcShipPng = al_load_bitmap("npcShip.png");
+    for(int i = 0; i < 4; i++)
+        npcShipSub[i] = al_create_sub_bitmap(npcShipPng, i*64, 0, 64, 64);
+
+
     bulletPng = al_load_bitmap("bullet.png");
     for(int i = 0; i < 4; i++)
         bulletSub[i] = al_create_sub_bitmap(bulletPng, i*64, 0, 64, 64);
@@ -69,6 +77,10 @@ void Image::UnloadResources()
     for(int i = 0; i < 4; i++)
         al_destroy_bitmap(pcShipSub[i]);
     al_destroy_bitmap(pcShipPng);
+
+    for(int i = 0; i < 4; i++)
+        al_destroy_bitmap(npcShipSub[i]);
+    al_destroy_bitmap(npcShipPng);
 
     for(int i = 0; i < 4; i++)
         al_destroy_bitmap(bulletSub[i]);

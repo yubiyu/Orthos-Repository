@@ -3,6 +3,8 @@
 
 #include "actor.h"
 
+#include "hax.h"
+
 #include <vector>
 
 class Ship : public Actor
@@ -17,7 +19,9 @@ class Ship : public Actor
 /// Mobility
     float moveSpeed;
 
-/// Offense
+/// Tracking
+    bool hasTrackedTarget;
+    Ship* trackedTarget;
 
 
 public:
@@ -33,6 +37,18 @@ public:
     void SetMaxHP(int hp){currentHP = maxHP = hp;}
 
     void SetMoveSpeed(float speed){moveSpeed = speed;}
+
+    bool GetHasTrackedTarget(){return hasTrackedTarget;}
+    Ship* GetTrackedTarget(){return trackedTarget;}
+    void SetTrackedTarget(Ship* target)
+    {
+        trackedTarget = target;
+
+        if(trackedTarget == nullptr)
+            hasTrackedTarget = false;
+        else
+            hasTrackedTarget = true;
+    }
 
 };
 

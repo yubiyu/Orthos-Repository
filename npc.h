@@ -7,6 +7,7 @@
 #include "emitter.h"
 
 #include <cmath>
+#include <iostream>
 
 class NPC : public Ship
 {
@@ -21,13 +22,15 @@ class NPC : public Ship
         MOVE_AI_ORBIT_SHIP
     };
 
-    int moveAIRoutine;
+    int moveAI;
     float xDestination, yDestination;
 
     Emitter *mainEmitter;
 
 
 public:
+    static std::vector<NPC*>npcs;
+
     enum enumNPCHulls
     {
         HULL_NPC_OCELLUS = 0
@@ -37,6 +40,16 @@ public:
     ~NPC();
 
     void Initialize(int whichHullType);
+    void Uninitialize();
+
+    void Logic();
+    void Drawing();
+
+    void SetMoveAI(int move_ai)
+    {
+        moveAI = move_ai;
+    }
+
 };
 
 #endif // NPC_H_INCLUDED

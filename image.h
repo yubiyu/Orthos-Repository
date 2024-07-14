@@ -20,6 +20,9 @@ struct Image
     static ALLEGRO_BITMAP *pcShipPng;
     static ALLEGRO_BITMAP *pcShipSub[4];
 
+    static ALLEGRO_BITMAP *npcShipPng;
+    static ALLEGRO_BITMAP *npcShipSub[4];
+
     static ALLEGRO_BITMAP *bulletPng;
     static ALLEGRO_BITMAP *bulletSub[4];
 

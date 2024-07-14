@@ -1,32 +1,55 @@
 #include "stage.h"
 
-PC* Stage::pc;
-std::vector<NPC*> Stage::npcs;
-std::vector<Bullet*> Stage::bullets;
-
 void Stage::Initialize()
 {
-    pc = new PC();
-    pc->Initialize(PC::HULL_PC_ORTHOS_A);
+    PC::pc = new PC();
+    PC::pc->PC::Initialize(PC::HULL_PC_ORTHOS_A);
 
-    NPC*dummy = new NPC();
-    dummy->Initialize(NPC::HULL_NPC_OCELLUS);
-
+    NPC*dummy;
+    dummy = new NPC();
+    dummy->NPC::Initialize(NPC::HULL_NPC_OCELLUS);
+    dummy->SetXYPosition(640, 320);
+    dummy->SetTrackedTarget(PC::pc);
+    NPC::npcs.push_back(dummy);
 }
 
 void Stage::Uninitialize()
 {
-    delete pc;
+    delete PC::pc;
 
-    for(std::vector<NPC*>::iterator it = npcs.begin(); it != npcs.end();)
+    for(std::vector<Bullet*>::iterator it = Bullet::bullets.begin(); it != Bullet::bullets.end();)
+    {
         delete *it;
-
-    for(std::vector<Bullet*>::iterator it = bullets.begin(); it != bullets.end();)
+        Bullet::bullets.erase(it);
+    }
+    for(std::vector<NPC*>::iterator it = NPC::npcs.begin(); it != NPC::npcs.end();)
+    {
         delete *it;
+        NPC::npcs.erase(it);
+    }
 }
 
 void Stage::Logic()
 {
+    PC::pc->Logic();
+
+    for(std::vector<Bullet*>::iterator it = Bullet::bullets.begin(); it != Bullet::bullets.end();)
+    {
+        if((*it)->GetIsActive())
+        {
+            (*it)->Logic();
+            ++it;
+        }
+        else
+        {
+            delete *it;
+            Bullet::bullets.erase(it);
+        }
+    }
+
+    for(std::vector<NPC*>::iterator it = NPC::npcs.begin(); it!= NPC::npcs.end(); ++it)
+        (*it)->Logic();
+
 
 }
 
@@ -54,39 +77,27 @@ void Stage::Input()
 
     if(Keyboard::keyHoldTicks[Keyboard::KEY_LEFT] >= 1)
     {
-        //Camera::xPosition -= 4;
-        pc->SetXPosition(pc->GetXPosition()-4);
+        PC::pc->SetXPosition(PC::pc->GetXPosition()-4);
     }
     if(Keyboard::keyHoldTicks[Keyboard::KEY_RIGHT] >= 1)
     {
-        //Camera::xPosition += 4;
-        pc->SetXPosition(pc->GetXPosition()+4);
+        PC::pc->SetXPosition(PC::pc->GetXPosition()+4);
     }
     if(Keyboard::keyHoldTicks[Keyboard::KEY_UP] >= 1)
     {
-        //Camera::yPosition -= 4;
-        pc->SetYPosition(pc->GetYPosition()-4);
+        PC::pc->SetYPosition(PC::pc->GetYPosition()-4);
     }
     if(Keyboard::keyHoldTicks[Keyboard::KEY_DOWN] >= 1)
     {
-        //Camera::yPosition += 4;
-        pc->SetYPosition(pc->GetYPosition()+4);
+        PC::pc->SetYPosition(PC::pc->GetYPosition()+4);
     }
 
-    if(Keyboard::keyHoldTicks[Keyboard::KEY_J] == 1)
+    if(Keyboard::keyHoldTicks[Keyboard::KEY_J] > 0)
     {
-        Audio::AddSfx(0);
-
-        /*
-        ALLEGRO_SAMPLE_INSTANCE*genericLaserShoot;
-        genericLaserShoot = al_create_sample_instance(Audio::genericLaserShootWav);
-        al_set_sample_instance_gain(genericLaserShoot, Audio::sfxGain);
-        al_attach_sample_instance_to_mixer(genericLaserShoot, al_get_default_mixer());
-        Audio::activeSfxInstances.push_back(genericLaserShoot);
-        al_play_sample_instance(genericLaserShoot);
-
-        */
+        PC::pc->SetFireCommandReceived(true);
     }
+    else
+        PC::pc->SetFireCommandReceived(false);
 
     if(Keyboard::keyHoldTicks[Keyboard::KEY_K] == 1)
     {
@@ -113,10 +124,16 @@ void Stage::Drawing()
     DrawDebugGridCameraCrosshair();
     DrawDebugGridText();
 
-    al_draw_bitmap(Image::pcShipSub[pc->GetHullType()], pc->GetXPosition(), pc->GetYPosition(), 0);
+    for(std::vector<NPC*>::iterator it = NPC::npcs.begin(); it != NPC::npcs.end(); ++it)
+        (*it)->Drawing();
+
+    PC::pc->Drawing();
+
+    for(std::vector<Bullet*>::iterator it = Bullet::bullets.begin(); it != Bullet::bullets.end(); ++it)
+        (*it)->Drawing();
 
     al_draw_multiline_text(Font::monogram32, COLKEY_TEXT_LIGHT, Display::WIDTH, 0, 600, 16, ALLEGRO_ALIGN_RIGHT,
-                           "<ESC> to return to title.\n<UDLR> to move ship.\n<J> to test SFX.\n<K> to toggle test BGM.");
+                           "<ESC> to return to title.\n<UDLR> to move ship.\n<J> to fire.\n<K> to toggle test BGM.");
 
 
 }

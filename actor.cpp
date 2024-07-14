@@ -19,4 +19,5 @@ void Actor::Initialize()
     SetIsCollidable(true);
 
     SetXYPosition(0,0);
+    SetDimensions(0,0);
 }

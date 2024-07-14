@@ -4,13 +4,11 @@
 class Actor
 {
     bool isActive;
-
     bool isVisible;
-
     bool isCollidable;
 
-    /// Position
     float xPosition, yPosition;
+    float width, height;
 
 public:
     Actor();
@@ -33,6 +31,12 @@ public:
     void SetXPosition(float x){xPosition = x;}
     void SetYPosition(float y){yPosition = y;}
     void SetXYPosition(float x, float y){ SetXPosition(x); SetYPosition(y); }
+
+    float GetWidth(){return width;}
+    void SetWidth(float w){width = w;}
+    float GetHeight(){return height;}
+    void SetHeight(float h){height = h;}
+    void SetDimensions(float w, float h){ SetWidth(w); SetHeight(h);}
 };
 
 #endif // ACTOR_H_INCLUDED

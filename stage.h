@@ -23,10 +23,6 @@
 
 struct Stage
 {
-    static PC*pc;
-    static std::vector<NPC*>npcs;
-    static std::vector<Bullet*>bullets;
-
     static void Initialize();
     static void Uninitialize();
 

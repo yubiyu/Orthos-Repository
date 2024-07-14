@@ -14,7 +14,11 @@ class PC : public Ship
     Emitter* lockonEmitter;
     Emitter* bombEmitter;
 
+    bool fireCommandReceived;
+
 public:
+    static PC*pc;
+
     enum enumPCHulls
     {
         HULL_PC_ORTHOS_A = 0,
@@ -28,6 +32,12 @@ public:
     ~PC();
 
     void Initialize(int whichHullType);
+
+    void Logic();
+    void Drawing();
+
+    bool GetFireCommandReceived(){return fireCommandReceived;}
+    void SetFireCommandReceived(bool active){fireCommandReceived = active;}
 };
 
 #endif // PC_H_INCLUDED
