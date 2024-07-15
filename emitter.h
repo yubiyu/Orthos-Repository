@@ -8,18 +8,14 @@
 
 #include <iostream>
 
-// Analogous to a stencil/template for firing arcs and rings of bullets on repeat.9
-// The characteristics of fired bullets are relative to the "lead" bullet.
+// Analogous to a stencil/template for firing arcs and rings of bullets on repeat.
 class Emitter : public Actor
 {
-    bool isActive;
     bool isOnline;
+    bool isNPCEmitter;
 
     bool hasTrackedTarget;
     Ship *trackedTarget;
-
-    float xPosition;
-    float yPosition;
 
     int bulletForm;
     float bulletSpeed;
@@ -39,11 +35,10 @@ public:
 
     void Logic();
 
-    bool GetIsActive(){return isActive;}
-    void SetIsActive(bool is_active){isActive = is_active;}
-
     bool GetIsOnline(){return isOnline;}
     void SetIsOnline(bool is_online){isOnline = is_online;}
+
+    void SetIsNPCEmitter(bool is_npc){isNPCEmitter = is_npc;}
 
     Ship* GetTrackedTarget(){return trackedTarget;}
     void SetTrackedTarget(Ship* target)
@@ -55,10 +50,6 @@ public:
         else
             hasTrackedTarget = true;
     }
-
-    void SetXPosition(float x){xPosition = x;}
-    void SetYPosition(float y){yPosition = y;}
-    void SetXYPosition(float x, float y){ SetXPosition(x); SetYPosition(y); }
 };
 
 #endif // EMITTER_H_INCLUDED

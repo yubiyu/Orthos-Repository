@@ -12,14 +12,12 @@
 
 class Bullet : public Actor
 {
+    bool isNPCBullet;
+
     int lifespanElasped, lifespan;
     static const int BASE_LIFESPAN = Timer::FPS * 10;
 
     int form;
-
-    float speed;
-    float angle;
-    float width;
 
 public:
     static std::vector<Bullet*> bullets;
@@ -40,10 +38,13 @@ public:
     Bullet();
     ~Bullet();
 
-    void Initialize(int form, float speed, float angle, float width);
+    void Initialize(int form, float speed, float angle);
 
     void Logic();
     void Drawing();
+
+    bool GetIsNPCBullet(){return isNPCBullet;}
+    void SetIsNPCBullet(bool is_npc){isNPCBullet = is_npc;}
 
     void SetLifespan(int cycles)
     {
@@ -53,15 +54,6 @@ public:
 
     int GetForm(){return form;}
     void SetForm(int whichForm){form = whichForm;}
-
-    float GetSpeed(){return speed;}
-    void SetSpeed(float s){speed = s;}
-
-    float GetAngle(){return angle;}
-    void SetAngle(float a){angle = a;}
-
-    float GetWidth(){return width;}
-    void SetWidth(float w){width = w;}
 };
 
 #endif // BULLET_H_INCLUDED

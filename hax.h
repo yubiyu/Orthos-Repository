@@ -23,9 +23,9 @@ struct Hax
 
     static bool AABBCollision(float a_x, float a_y, float a_width, float a_height,    float b_x, float b_y, float b_width, float b_height)
     {
-        if(a_x+a_width < b_x || b_x+b_width < a_x)
+        if(a_x+a_width <= b_x || b_x+b_width <= a_x)
             return false;
-        if(a_y+a_height < b_y || b_y+b_height < a_y)
+        if(a_y+a_height <= b_y || b_y+b_height <= a_y)
             return false;
 
         return true;

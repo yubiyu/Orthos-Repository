@@ -92,7 +92,7 @@ void Audio::Logic()
         {
             al_detach_sample_instance(*it);
             al_destroy_sample_instance(*it);
-            activeSfxInstances.erase(it);
+            it = activeSfxInstances.erase(it);
         }
         else
         {

@@ -12,8 +12,10 @@ Emitter::~Emitter()
 
 void Emitter::Initialize(int bullet_form, float bullet_speed, unsigned num_bullets, float fire_arc_length, float fire_angle, int fire_rate, int fire_repeat_rate, int fire_repeat_length)
 {
-    SetIsActive(true);
+    Actor::Initialize();
+
     SetIsOnline(true);
+    SetIsNPCEmitter(false);
     SetTrackedTarget(nullptr);
 
     bulletForm = bullet_form;
@@ -39,8 +41,8 @@ void Emitter::Logic()
 {
     if(hasTrackedTarget)
     {
-        float opposite = GetTrackedTarget()->GetYPosition() - Emitter::yPosition;
-        float adjacent = GetTrackedTarget()->GetXPosition() - Emitter::xPosition;
+        float opposite = GetTrackedTarget()->GetYPosition() - GetYPosition();
+        float adjacent = GetTrackedTarget()->GetXPosition() - GetXPosition();
 
         fireAngle = std::atan2( opposite, adjacent );
     }
@@ -64,8 +66,11 @@ void Emitter::Logic()
                 {
                     Bullet*b;
                     b = new Bullet();
-                    b->Initialize(bulletForm, bulletSpeed, arcStartAngle + seperationAngle*(bulletPosition+0.5), 1);
-                    b->SetXYPosition(xPosition, yPosition);
+                    b->Initialize(bulletForm, bulletSpeed, arcStartAngle + seperationAngle*(bulletPosition+0.5));
+                    b->SetXYPosition(GetXPosition(), GetYPosition());
+                    if(isNPCEmitter)
+                        b->SetIsNPCBullet(true);
+
                     Bullet::bullets.push_back(b);
                 }
 

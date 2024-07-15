@@ -38,7 +38,9 @@ void PC::Initialize(int whichHullType)
     }
 
     SetXYPosition(640,720);
-    SetDimensions(64,64);
+    SetMoveAngle(0.75 * 2*M_PI);
+    SetHitboxXYOffset(28,28);
+    SetHitboxDimensions(8,8);
 
     SetFireCommandReceived(false);
 
@@ -51,9 +53,27 @@ void PC::Logic()
 
     mainEmitter->SetXYPosition(GetXPosition(),GetYPosition());
     mainEmitter->Logic();
+
+    for(std::vector<Bullet*>::iterator it = Bullet::bullets.begin(); it != Bullet::bullets.end(); ++it)
+    {
+        if((*it)->GetIsNPCBullet())
+        {
+            if(Hax::AABBCollision(GetXPosition() + GetHitboxXOffset(), GetYPosition() + GetHitboxYOffset(), GetHitboxWidth(), GetHitboxHeight(),
+                                  (*it)->GetXPosition() + (*it)->GetHitboxXOffset(), (*it)->GetYPosition() + (*it)->GetHitboxYOffset(), (*it)->GetHitboxWidth(), (*it)->GetHitboxHeight()))
+            {
+                (*it)->SetIsActive(false);
+            }
+        }
+    }
+
+    SetSpriteRotation(GetMoveAngle());
 }
 
 void PC::Drawing()
 {
-    al_draw_bitmap(Image::pcShipSub[GetHullType()], GetXPosition(), GetYPosition(), 0);
+    al_draw_rotated_bitmap(Image::pcShipSub[GetHullType()],
+                           GetSpriteWidth()/2, GetSpriteHeight()/2,
+                           GetXPosition(), GetYPosition(),
+                           GetSpriteRotation(),
+                           0);
 }

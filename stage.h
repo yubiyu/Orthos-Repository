@@ -13,6 +13,7 @@
 #include "pc.h"
 #include "npc.h"
 #include "bullet.h"
+#include "generator.h"
 
 #include "tile.h"
 #include "camera.h"

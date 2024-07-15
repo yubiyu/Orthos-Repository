@@ -48,16 +48,16 @@ void Image::LoadResources()
 
     pcShipPng = al_load_bitmap("pcShip.png");
     for(int i = 0; i < 4; i++)
-        pcShipSub[i] = al_create_sub_bitmap(pcShipPng, i*64, 0, 64, 64);
+        pcShipSub[i] = al_create_sub_bitmap(pcShipPng, 0, i*64, 64, 64);
 
     npcShipPng = al_load_bitmap("npcShip.png");
     for(int i = 0; i < 4; i++)
-        npcShipSub[i] = al_create_sub_bitmap(npcShipPng, i*64, 0, 64, 64);
+        npcShipSub[i] = al_create_sub_bitmap(npcShipPng, 0, i*64, 64, 64);
 
 
     bulletPng = al_load_bitmap("bullet.png");
     for(int i = 0; i < 4; i++)
-        bulletSub[i] = al_create_sub_bitmap(bulletPng, i*64, 0, 64, 64);
+        bulletSub[i] = al_create_sub_bitmap(bulletPng, 0, i*64, 64, 64);
 
 
 }

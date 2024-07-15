@@ -5,12 +5,7 @@ void Stage::Initialize()
     PC::pc = new PC();
     PC::pc->PC::Initialize(PC::HULL_PC_ORTHOS_A);
 
-    NPC*dummy;
-    dummy = new NPC();
-    dummy->NPC::Initialize(NPC::HULL_NPC_OCELLUS);
-    dummy->SetXYPosition(640, 320);
-    dummy->SetTrackedTarget(PC::pc);
-    NPC::npcs.push_back(dummy);
+    Generator::Initialize(1);
 }
 
 void Stage::Uninitialize()
@@ -20,17 +15,30 @@ void Stage::Uninitialize()
     for(std::vector<Bullet*>::iterator it = Bullet::bullets.begin(); it != Bullet::bullets.end();)
     {
         delete *it;
-        Bullet::bullets.erase(it);
+        it = Bullet::bullets.erase(it);
     }
     for(std::vector<NPC*>::iterator it = NPC::npcs.begin(); it != NPC::npcs.end();)
     {
         delete *it;
-        NPC::npcs.erase(it);
+        it = NPC::npcs.erase(it);
     }
+
+    Generator::Uninitialize();
 }
 
 void Stage::Logic()
 {
+    Generator::Logic();
+
+    std::pair<std::multimap<int, NPC*>::iterator, std::multimap<int, NPC*>::iterator>range = Generator::stageShipList.equal_range(Generator::elaspedTime);
+
+    for(std::multimap<int, NPC*>::iterator it = range.first; it != range.second; ++it)
+    {
+        NPC::npcs.push_back(it->second);
+        (*it).second->SetTrackedTarget(PC::pc);
+        Generator::stageShipList.erase(it);
+    }
+
     PC::pc->Logic();
 
     for(std::vector<Bullet*>::iterator it = Bullet::bullets.begin(); it != Bullet::bullets.end();)
@@ -43,12 +51,23 @@ void Stage::Logic()
         else
         {
             delete *it;
-            Bullet::bullets.erase(it);
+            it = Bullet::bullets.erase(it);
         }
     }
 
-    for(std::vector<NPC*>::iterator it = NPC::npcs.begin(); it!= NPC::npcs.end(); ++it)
-        (*it)->Logic();
+    for(std::vector<NPC*>::iterator it = NPC::npcs.begin(); it!= NPC::npcs.end();)
+    {
+        if((*it)->GetIsActive())
+        {
+            (*it)->Logic();
+            ++it;
+        }
+        else
+        {
+            delete *it;
+            it = NPC::npcs.erase(it);
+        }
+    }
 
 
 }

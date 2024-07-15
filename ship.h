@@ -16,9 +16,6 @@ class Ship : public Actor
 /// Structure
     int currentHP, maxHP;
 
-/// Mobility
-    float moveSpeed;
-
 /// Tracking
     bool hasTrackedTarget;
     Ship* trackedTarget;
@@ -35,8 +32,6 @@ public:
 
     void SetCurrentHP(int hp){currentHP = hp;}
     void SetMaxHP(int hp){currentHP = maxHP = hp;}
-
-    void SetMoveSpeed(float speed){moveSpeed = speed;}
 
     bool GetHasTrackedTarget(){return hasTrackedTarget;}
     Ship* GetTrackedTarget(){return trackedTarget;}

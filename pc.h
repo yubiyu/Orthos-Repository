@@ -6,6 +6,8 @@
 #include "bullet.h"
 #include "emitter.h"
 
+#include "hax.h"
+
 #include <cmath>
 
 class PC : public Ship
