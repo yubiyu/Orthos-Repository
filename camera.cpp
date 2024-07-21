@@ -1,6 +1,6 @@
 #include "camera.h"
 
-//ALLEGRO_BITMAP* Camera::cameraBuffer;
+ALLEGRO_BITMAP* Camera::cameraBuffer;
 
 ALLEGRO_TRANSFORM Camera::identityTransform; // identity transform
 ALLEGRO_TRANSFORM Camera::zoomTransform;
@@ -20,7 +20,7 @@ float Camera::yDestination;
 void Camera::Initialize()
 {
     al_identity_transform(&identityTransform);
-    //mainCameraBuffer = al_create_bitmap(Scene::MAIN_W, Scene::MAIN_H);
+    cameraBuffer = al_create_bitmap(Frame::ARENA_WIDTH, Frame::ARENA_HEIGHT);
 
     zoomScale = 1.0;
     zoomTranslateX = 0; // At 1.0 scale
@@ -35,7 +35,7 @@ void Camera::Initialize()
 
 void Camera::Uninitialize()
 {
-    //al_destroy_bitmap(mainCameraBuffer);
+    al_destroy_bitmap(cameraBuffer);
 }
 
 void Camera::SetPosition(float x, float y)

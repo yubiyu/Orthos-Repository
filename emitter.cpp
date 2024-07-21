@@ -18,8 +18,13 @@ void Emitter::Initialize(int bullet_form, float bullet_speed, unsigned num_bulle
     SetIsNPCEmitter(false);
     SetTrackedTarget(nullptr);
 
+    SetHasTrackedPosition(false);
+    SetTrackedXYPosition(0,0);
+
     bulletForm = bullet_form;
     bulletSpeed = bullet_speed;
+
+    bulletLifespan = BULLET_BASE_LIFESPAN;
 
     numBullets = num_bullets;
     if(numBullets == 0)
@@ -46,6 +51,13 @@ void Emitter::Logic()
 
         fireAngle = std::atan2( opposite, adjacent );
     }
+    else if(hasTrackedPosition)
+    {
+        float opposite = trackedYPosition - GetYPosition();
+        float adjacent = trackedXPosition - GetXPosition();
+
+        fireAngle = std::atan2( opposite, adjacent );
+    }
 
 
     if(fireRepeatPhase < fireRepeatLength)
@@ -64,14 +76,14 @@ void Emitter::Logic()
 
                 for(unsigned bulletPosition = 0; bulletPosition < numBullets; bulletPosition++)
                 {
-                    Bullet*b;
-                    b = new Bullet();
-                    b->Initialize(bulletForm, bulletSpeed, arcStartAngle + seperationAngle*(bulletPosition+0.5));
-                    b->SetXYPosition(GetXPosition(), GetYPosition());
+                    Bullet*bullet;
+                    bullet = new Bullet();
+                    bullet->Initialize(bulletForm, bulletSpeed, arcStartAngle + seperationAngle*(bulletPosition+0.5), bulletLifespan);
+                    bullet->SetXYPosition(GetXPosition(), GetYPosition());
                     if(isNPCEmitter)
-                        b->SetIsNPCBullet(true);
+                        bullet->SetIsNPCBullet(true);
 
-                    Bullet::bullets.push_back(b);
+                    Bullet::bullets.push_back(bullet);
                 }
 
                 fireCD = 0;

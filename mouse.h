@@ -3,6 +3,8 @@
 
 #include "event.h"
 
+#include "display.h"
+
 struct Mouse
 {
     static bool mouseAxesAltered; // Whether InputMouseXY() or InputMouseWheel() has been called this cycle. Reset if ALLEGRO_EVENT_MOUSE_AXES was not called.

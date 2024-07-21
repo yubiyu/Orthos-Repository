@@ -4,7 +4,6 @@
 #include "timer.h"
 #include "scene.h"
 #include "event.h"
-#include "camera.h"
 #include "display.h"
 #include "filesystem.h"
 #include "image.h"

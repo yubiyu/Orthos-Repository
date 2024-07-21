@@ -7,10 +7,11 @@
 #include <allegro5/allegro5.h>
 
 #include "tile.h"
+#include "frame.h"
 
 struct Camera
 {
-    //static ALLEGRO_BITMAP* mainCameraBuffer;
+    static ALLEGRO_BITMAP* cameraBuffer;
 
     static constexpr float SCALE_MIN = 1.0;
     static constexpr float SCALE_MAX = 2.0;

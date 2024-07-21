@@ -78,7 +78,7 @@ bool Game::Initialize(char **argv)
     Font::Initialize();
     Audio::Initialize();
 
-    Palette::Initialize();
+    Palette::InitializeOrthos();
     Scene::Initialize();
     Camera::Initialize();
 

@@ -9,19 +9,15 @@ Bullet::Bullet()
 
 Bullet::~Bullet()
 {
-    //std::cout << "destructor test " << std::endl;
+
 }
 
-void Bullet::Initialize(int form, float speed, float angle)
+void Bullet::Initialize(int form, float speed, float angle, int lifespan)
 {
-    Actor::Initialize();
+    Particle::Initialize(form, speed, angle, lifespan);
 
     SetIsNPCBullet(false);
-
-    SetLifespan(BASE_LIFESPAN);
-    SetForm(form);
-    SetMoveSpeed(speed);
-    SetMoveAngle(angle);
+    SetDamage(1);
 
     switch(GetForm())
     {
@@ -39,24 +35,13 @@ void Bullet::Initialize(int form, float speed, float angle)
         break;
 
     case BULLET_FORM_LARGE_ARROW:
+        SetDamage(5);
         SetHitboxXYOffset(8,8);
         SetHitboxDimensions(48,48);
         break;
     }
-
 }
 
-void Bullet::Logic()
-{
-    lifespanElasped++;
-    if(lifespanElasped >= lifespan)
-        SetIsActive(false);
-
-    SetXPosition(GetXPosition() + GetMoveSpeed()*std::cos(GetMoveAngle()));
-    SetYPosition(GetYPosition() + GetMoveSpeed()*std::sin(GetMoveAngle()));
-
-    SetSpriteRotation(GetMoveAngle());
-}
 
 void Bullet::Drawing()
 {
@@ -65,4 +50,20 @@ void Bullet::Drawing()
                            GetXPosition(), GetYPosition(),
                            GetSpriteRotation(),
                            0);
+}
+
+void Bullet::EmitHitSparks(int particle_form)
+{
+    Particle *spark;
+    for(int i = 0; i < 6; i++)
+    {
+        float randAngle = Hax::RandFloatRange(0.0, 2*ALLEGRO_PI);
+        float randMoveSpeed = Hax::RandFloatRange(6, 12);
+        float randLifespan = Hax::RandFloatRange(8, 24);
+
+        spark = new Particle();
+        spark->Initialize(particle_form, randMoveSpeed, randAngle, randLifespan);
+        spark->SetXYPosition(GetXPosition(), GetYPosition());
+        Particle::particles.push_back(spark);
+    }
 }

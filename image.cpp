@@ -10,6 +10,10 @@ ALLEGRO_BITMAP* Image::titleOptionMarkerPng;
 ALLEGRO_BITMAP* Image::settingsVolumeBarPng;
 ALLEGRO_BITMAP* Image::settingsVolumeBarEmptyPng;
 
+ALLEGRO_BITMAP* Image::framePng;
+ALLEGRO_BITMAP* Image::frameEmitterIconPng;
+ALLEGRO_BITMAP* Image::frameEmitterIconSub[6];
+
 ALLEGRO_BITMAP* Image::pcShipPng;
 ALLEGRO_BITMAP* Image::pcShipSub[4];
 
@@ -18,6 +22,11 @@ ALLEGRO_BITMAP *Image::npcShipSub[4];
 
 ALLEGRO_BITMAP* Image::bulletPng;
 ALLEGRO_BITMAP* Image::bulletSub[4];
+
+ALLEGRO_BITMAP* Image::particlePng;
+ALLEGRO_BITMAP* Image::particleSub[4];
+
+ALLEGRO_BITMAP* Image::reticlePng;
 
 void Image::Initialize()
 {
@@ -46,6 +55,11 @@ void Image::LoadResources()
     settingsVolumeBarPng = al_load_bitmap("settingsVolumeBar.png");
     settingsVolumeBarEmptyPng = al_load_bitmap("settingsVolumeBarEmpty.png");
 
+    framePng = al_load_bitmap("frame.png");
+    frameEmitterIconPng = al_load_bitmap("frameEmitterIcon.png");
+    for(int i = 0; i < 6; i++)
+        frameEmitterIconSub[i] = al_create_sub_bitmap(frameEmitterIconPng, 0, i*0, 64, 64); /// placeholder
+
     pcShipPng = al_load_bitmap("pcShip.png");
     for(int i = 0; i < 4; i++)
         pcShipSub[i] = al_create_sub_bitmap(pcShipPng, 0, i*64, 64, 64);
@@ -58,6 +72,12 @@ void Image::LoadResources()
     bulletPng = al_load_bitmap("bullet.png");
     for(int i = 0; i < 4; i++)
         bulletSub[i] = al_create_sub_bitmap(bulletPng, 0, i*64, 64, 64);
+
+    particlePng = al_load_bitmap("particle.png");
+    for(int i = 0; i < 4; i++)
+        particleSub[i] = al_create_sub_bitmap(particlePng, 0, i*64, 64, 64);
+
+    reticlePng = al_load_bitmap("reticle.png");
 
 
 }
@@ -74,6 +94,13 @@ void Image::UnloadResources()
     al_destroy_bitmap(settingsVolumeBarPng);
     al_destroy_bitmap(settingsVolumeBarEmptyPng);
 
+    al_destroy_bitmap(framePng);
+
+    for(int i = 0; i < 6; i++)
+        al_destroy_bitmap(frameEmitterIconSub[i]);
+    al_destroy_bitmap(frameEmitterIconPng);
+
+
     for(int i = 0; i < 4; i++)
         al_destroy_bitmap(pcShipSub[i]);
     al_destroy_bitmap(pcShipPng);
@@ -85,6 +112,12 @@ void Image::UnloadResources()
     for(int i = 0; i < 4; i++)
         al_destroy_bitmap(bulletSub[i]);
     al_destroy_bitmap(bulletPng);
+
+    for(int i = 0; i < 4; i++)
+        al_destroy_bitmap(particleSub[i]);
+    al_destroy_bitmap(particlePng);
+
+    al_destroy_bitmap(reticlePng);
 
 }
 

@@ -3,6 +3,8 @@
 
 #include "npc.h"
 
+#include "frame.h"
+
 #include <map>
 
 struct Generator

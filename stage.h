@@ -5,6 +5,7 @@
 #include <string>
 
 #include "keyboard.h"
+#include "mouse.h"
 
 #include "image.h"
 #include "font.h"
@@ -12,13 +13,15 @@
 
 #include "pc.h"
 #include "npc.h"
-#include "bullet.h"
+#include "particle.h"
 #include "generator.h"
+#include "reticle.h"
 
 #include "tile.h"
 #include "camera.h"
 #include "palette.h"
 #include "scene.h"
+#include "frame.h"
 
 #include "hax.h"
 

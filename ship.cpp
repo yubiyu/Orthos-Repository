@@ -17,3 +17,4 @@ void Ship::Initialize()
     SetMoveSpeed(4);
     SetTrackedTarget(nullptr);
 }
+

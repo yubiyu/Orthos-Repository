@@ -31,8 +31,8 @@ void Settings::Initialize()
 
     SetTargetedOption(OPTION_GLOBAL_MUTE);
 
-    SetBgmBars(6);
-    SetSfxBars(6);
+    SetBgmBars(3);
+    SetSfxBars(3);
 }
 
 void Settings::Logic()

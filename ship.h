@@ -2,6 +2,7 @@
 #define SHIP_H_INCLUDED
 
 #include "actor.h"
+#include "propulsion.h"
 
 #include "hax.h"
 
@@ -13,12 +14,15 @@ class Ship : public Actor
 /// Identity
     int hullType;
 
-/// Structure
     int currentHP, maxHP;
 
-/// Tracking
     bool hasTrackedTarget;
     Ship* trackedTarget;
+
+    bool hasTrackedPosition;
+
+
+    Propulsion* movePropulsion;
 
 
 public:
@@ -30,7 +34,9 @@ public:
     int GetHullType(){return hullType;}
     void SetHullType(int whichHullType){ hullType = whichHullType;}
 
+    int GetCurrentHP(){ return currentHP;}
     void SetCurrentHP(int hp){currentHP = hp;}
+    int GetMaxHP(){return maxHP;}
     void SetMaxHP(int hp){currentHP = maxHP = hp;}
 
     bool GetHasTrackedTarget(){return hasTrackedTarget;}

@@ -1,12 +1,12 @@
 #ifndef NPC_H_INCLUDED
 #define NPC_H_INCLUDED
 
-#include "display.h"
-
 #include "ship.h"
 
-#include "bullet.h"
+#include "particle.h"
 #include "emitter.h"
+
+#include "frame.h"
 
 #include <cmath>
 #include <iostream>
@@ -52,6 +52,8 @@ public:
 
     void Logic();
     void Drawing();
+
+    void EmitDeathSparks();
 
     void SetMoveAI(int move_ai){moveAI = move_ai;}
     void SetXDestination(float x){xDestination = x;}

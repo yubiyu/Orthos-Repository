@@ -28,26 +28,28 @@ void NPC::Initialize(int whichHullType, float x_pos, float y_pos, float x_dest, 
     case HULL_NPC_RAY:
         SetMoveSpeed(1.2);
         SetHitboxDimensions(64,64);
+        SetMaxHP(50);
         mainEmitter->Initialize(Bullet::BULLET_FORM_ARROW, 3, 5, 0.33*2*ALLEGRO_PI, 0.25*2*ALLEGRO_PI, 15, 180, 6);
-
         break;
 
     case HULL_NPC_OCELLUS:
-    {
         SetMoveSpeed(1.2);
         SetHitboxDimensions(64,64);
+        SetMaxHP(50);
         mainEmitter->Initialize(Bullet::BULLET_FORM_ROUND, 6, 1, 0.01*2*ALLEGRO_PI, 0.25*2*ALLEGRO_PI, 18, 180, 3);
         break;
-    }
+
     case HULL_NPC_ANGELFISH:
         SetMoveSpeed(1.2);
         SetHitboxDimensions(64,64);
+        SetMaxHP(50);
         mainEmitter->Initialize(Bullet::BULLET_FORM_ARROW, 3, 5, 0.33*2*ALLEGRO_PI, 0.25*2*ALLEGRO_PI, 15, 180, 6);
         break;
 
     case HULL_NPC_ANTLION:
-        SetMoveSpeed(1.2);
+        SetMoveSpeed(0.8);
         SetHitboxDimensions(64,64);
+        SetMaxHP(50);
         mainEmitter->Initialize(Bullet::BULLET_FORM_LARGE_ARROW, 12, 1, 0.33*2*ALLEGRO_PI, 0.25*2*ALLEGRO_PI, 15, 60, 1);
         break;
 
@@ -87,12 +89,17 @@ void NPC::Logic()
         break;
     }
 
+    if(GetCurrentHP() <= 0)
+    {
+        EmitDeathSparks();
+        SetIsActive(false);
+    }
+
     SetSpriteRotation(GetMoveAngle());
 
-    if(GetXPosition() < 0 || GetXPosition() > Display::WIDTH
-            || GetYPosition() < 0 || GetYPosition() > Display::HEIGHT)
+    if(GetXPosition() < 0 || GetXPosition() > Frame::ARENA_WIDTH
+            || GetYPosition() < 0 || GetYPosition() > Frame::ARENA_HEIGHT)
     {
-        std::cout << "Debug: npc out of bounds" << std::endl;
         SetIsActive(false);
     }
 
@@ -116,7 +123,11 @@ void NPC::Logic()
             if(Hax::AABBCollision(GetXPosition() + GetHitboxXOffset(), GetYPosition() + GetHitboxYOffset(), GetHitboxWidth(), GetHitboxHeight(),
                                   (*it)->GetXPosition() + (*it)->GetHitboxXOffset(), (*it)->GetYPosition() + (*it)->GetHitboxYOffset(), (*it)->GetHitboxWidth(), (*it)->GetHitboxHeight()))
             {
+                SetCurrentHP(GetCurrentHP() - (*it)->GetDamage());
+
+                (*it)->EmitHitSparks(Particle::PARTICLE_FORM_NPC_HIT);
                 (*it)->SetIsActive(false);
+
             }
         }
     }
@@ -130,4 +141,22 @@ void NPC::Drawing()
                            GetXPosition(), GetYPosition(),
                            GetSpriteRotation(),
                            0);
+}
+
+void NPC::EmitDeathSparks()
+{
+    float circleAngle = 0;
+    int numSparks = 12;
+
+    Particle*spark;
+
+    for(int i = 0; i < numSparks; i++)
+    {
+        circleAngle += (2*ALLEGRO_PI)/numSparks;
+
+        spark = new Particle();
+        spark->Initialize(Particle::PARTICLE_FORM_NPC_EXPLODE, 10, circleAngle, 16);
+        spark->SetXYPosition(GetXPosition(), GetYPosition());
+        Particle::particles.push_back(spark);
+    }
 }

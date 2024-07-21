@@ -13,6 +13,7 @@ bool Mouse::mousewheelInput[NUM_MOUSEWHEEL_OPTIONS];
 void Mouse::Initialize()
 {
     al_install_mouse();
+    al_hide_mouse_cursor(Display::display);
 
     for(int i = 0; i < NUM_MOUSE_BUTTONS; i++)
     {

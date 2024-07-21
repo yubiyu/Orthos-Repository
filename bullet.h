@@ -1,26 +1,17 @@
 #ifndef BULLET_H_INCLUDED
 #define BULLET_H_INCLUDED
 
-#include "actor.h"
+#include "particle.h"
 
-#include "timer.h"
-#include "image.h"
+#include "hax.h"
 
-#include <vector>
-#include <cmath>
-#include <iostream>
-
-class Bullet : public Actor
+class Bullet : public Particle
 {
     bool isNPCBullet;
-
-    int lifespanElasped, lifespan;
-    static const int BASE_LIFESPAN = Timer::FPS * 10;
-
-    int form;
+    int damage;
 
 public:
-    static std::vector<Bullet*> bullets;
+    static std::vector<Bullet*>bullets;
 
     enum enumBulletForms
     {
@@ -38,22 +29,16 @@ public:
     Bullet();
     ~Bullet();
 
-    void Initialize(int form, float speed, float angle);
-
-    void Logic();
     void Drawing();
 
+    void Initialize(int form, float speed, float angle, int lifespan);
+    void EmitHitSparks(int particle_form);
+
     bool GetIsNPCBullet(){return isNPCBullet;}
-    void SetIsNPCBullet(bool is_npc){isNPCBullet = is_npc;}
+    void SetIsNPCBullet(bool is_npc_bullet){isNPCBullet = is_npc_bullet;}
 
-    void SetLifespan(int cycles)
-    {
-        lifespanElasped = 0;
-        lifespan = cycles;
-    }
-
-    int GetForm(){return form;}
-    void SetForm(int whichForm){form = whichForm;}
+    int GetDamage(){return damage;}
+    void SetDamage(int dmg){damage = dmg;}
 };
 
 #endif // BULLET_H_INCLUDED

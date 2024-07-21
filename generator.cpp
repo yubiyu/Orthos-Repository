@@ -46,30 +46,50 @@ void Generator::Uninitialize()
 void Generator::Logic()
 {
     elaspedTime ++;
+    if(elaspedTime == 18*Timer::FPS)
+    {
+        elaspedTime = 0;
+        InitStage1();
+    }
 }
 
 void Generator::InitStage1()
 {
 /// Practice npc
-    NPC*dummy0;
-    dummy0 = new NPC();
-    dummy0->NPC::Initialize(NPC::HULL_NPC_OCELLUS, 720, 0, 420, 1200);
-    stageShipList.insert( std::make_pair( 1, dummy0 ));
+    NPC*dummy;
+    dummy = new NPC();
+    dummy->NPC::Initialize(NPC::HULL_NPC_OCELLUS, Frame::ARENA_WIDTH/2, 0, Frame::ARENA_WIDTH/2, Frame::ARENA_HEIGHT+100);
+    stageShipList.insert( std::make_pair( 1, dummy ));
 
 /// Three npcs
-    NPC*dummy2;
-    dummy2 = new NPC();
-    dummy2->NPC::Initialize(NPC::HULL_NPC_RAY, 900, 0, 900, 1200);
-    stageShipList.insert( std::make_pair( 8*Timer::FPS, dummy2));
+    dummy = new NPC();
+    dummy->NPC::Initialize(NPC::HULL_NPC_RAY, Frame::ARENA_WIDTH-100, 0, Frame::ARENA_WIDTH-100, Frame::ARENA_HEIGHT+100);
+    stageShipList.insert( std::make_pair( 4*Timer::FPS, dummy));
 
-    NPC*dummy3 = new NPC();
-    dummy3->NPC::Initialize(NPC::HULL_NPC_ANTLION, 600, 0, 600, 1200);
-    stageShipList.insert( std::make_pair( 8*Timer::FPS, dummy3));
+    dummy = new NPC();
+    dummy->NPC::Initialize(NPC::HULL_NPC_ANTLION, Frame::ARENA_WIDTH/2, 0, Frame::ARENA_WIDTH/2, Frame::ARENA_HEIGHT+100);
+    stageShipList.insert( std::make_pair( 4*Timer::FPS, dummy));
 
-    NPC*dummy4 = new NPC();
-    dummy4->NPC::Initialize(NPC::HULL_NPC_RAY, 300, 0, 300, 1200);
-    stageShipList.insert( std::make_pair( 8*Timer::FPS, dummy4));
+    dummy = new NPC();
+    dummy->NPC::Initialize(NPC::HULL_NPC_RAY, 100, 0, 100, Frame::ARENA_HEIGHT+100);
+    stageShipList.insert( std::make_pair( 4*Timer::FPS, dummy));
 
+/// Four npcs
+    dummy = new NPC();
+    dummy->NPC::Initialize(NPC::HULL_NPC_OCELLUS, 0, 96, Frame::ARENA_WIDTH+100, 192);
+    stageShipList.insert( std::make_pair( 10*Timer::FPS, dummy));
+
+    dummy = new NPC();
+    dummy->NPC::Initialize(NPC::HULL_NPC_RAY, Frame::ARENA_WIDTH, 192, 0, 384);
+    stageShipList.insert( std::make_pair( 10*Timer::FPS, dummy));
+
+    dummy = new NPC();
+    dummy->NPC::Initialize(NPC::HULL_NPC_RAY, 0, 288, Frame::ARENA_WIDTH+100, 576);
+    stageShipList.insert( std::make_pair( 12*Timer::FPS, dummy));
+
+    dummy = new NPC();
+    dummy->NPC::Initialize(NPC::HULL_NPC_OCELLUS, Frame::ARENA_WIDTH, 384, 0, 768);
+    stageShipList.insert( std::make_pair( 12*Timer::FPS, dummy));
 }
 
 void Generator::InitStage2()
