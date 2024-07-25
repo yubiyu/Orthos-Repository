@@ -4,6 +4,8 @@
 class Actor
 {
     bool isActive;
+    bool isAlive;
+    bool isInBounds;
     bool isVisible;
     bool isCollidable;
 
@@ -27,6 +29,12 @@ public:
 
     bool GetIsActive(){return isActive;}
     void SetIsActive(bool active){isActive = active;}
+
+    bool GetIsAlive(){return isAlive;}
+    void SetIsAlive(bool alive){isAlive = alive;}
+
+    bool GetIsInBounds(){return isInBounds;}
+    void SetIsInBounds(bool inBounds){ isInBounds = inBounds;}
 
     bool GetIsVisible(){return isVisible;}
     void SetIsVisible(bool visible){isVisible = visible;}

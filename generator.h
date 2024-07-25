@@ -3,7 +3,7 @@
 
 #include "npc.h"
 
-#include "frame.h"
+#include "arena.h"
 
 #include <map>
 

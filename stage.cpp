@@ -7,6 +7,7 @@ void Stage::Initialize()
 
     Generator::Initialize(1);
 
+    Lockon::Initialize();
     Frame::Initialize();
     Reticle::Initialize();
 }
@@ -14,32 +15,38 @@ void Stage::Initialize()
 void Stage::Uninitialize()
 {
     delete PC::pc;
+    PC::pc = nullptr;
 
     for(std::vector<Bullet*>::iterator it = Bullet::bullets.begin(); it != Bullet::bullets.end();)
     {
         delete *it;
+        *it = nullptr;
         it = Bullet::bullets.erase(it);
     }
     for(std::vector<NPC*>::iterator it = NPC::npcs.begin(); it != NPC::npcs.end();)
     {
         delete *it;
+        *it = nullptr;
         it = NPC::npcs.erase(it);
     }
 
     Generator::Uninitialize();
+    Lockon::Uninitialize();
 }
 
 void Stage::Logic()
 {
     Generator::Logic();
 
-    std::pair<std::multimap<int, NPC*>::iterator, std::multimap<int, NPC*>::iterator>range = Generator::stageShipList.equal_range(Generator::elaspedTime);
+    Lockon::Logic();
 
-    for(std::multimap<int, NPC*>::iterator it = range.first; it != range.second; ++it)
+    std::pair<std::multimap<int, NPC*>::iterator, std::multimap<int, NPC*>::iterator>range;
+    range = Generator::stageShipList.equal_range(Generator::elaspedTime);
+    for(std::multimap<int, NPC*>::iterator it = range.first; it != range.second;)
     {
         NPC::npcs.push_back(it->second);
         (*it).second->SetTrackedTarget(PC::pc);
-        Generator::stageShipList.erase(it);
+        it = Generator::stageShipList.erase(it);
     }
 
     PC::pc->Logic();
@@ -54,6 +61,7 @@ void Stage::Logic()
         else
         {
             delete *it;
+            *it = nullptr;
             it = Bullet::bullets.erase(it);
         }
     }
@@ -68,6 +76,7 @@ void Stage::Logic()
         else
         {
             delete *it;
+            *it = nullptr;
             it = NPC::npcs.erase(it);
         }
     }
@@ -82,6 +91,7 @@ void Stage::Logic()
         else
         {
             delete *it;
+            *it = nullptr;
             it = Particle::particles.erase(it);
         }
     }
@@ -132,6 +142,11 @@ void Stage::Input()
         PC::pc->SetYPosition(PC::pc->GetYPosition()+4);
     }
 
+    if(Keyboard::keyHoldTicks[Keyboard::KEY_F] >= 1)
+    {
+        PC::pc->LockonRelease();
+    }
+
     if(Keyboard::keyHoldTicks[Keyboard::KEY_K] == 1)
     {
 
@@ -157,7 +172,7 @@ void Stage::Drawing()
     al_clear_to_color(Palette::currentClearColour);
 
     DrawDebugGrid();
-    DrawDebugGridCameraCrosshair();
+    //DrawDebugGridCameraCrosshair();
     DrawDebugGridText();
 
     for(std::vector<NPC*>::iterator it = NPC::npcs.begin(); it != NPC::npcs.end(); ++it)
@@ -170,6 +185,8 @@ void Stage::Drawing()
 
     for(std::vector<Bullet*>::iterator it = Bullet::bullets.begin(); it != Bullet::bullets.end(); ++it)
         (*it)->Drawing();
+
+    Lockon::Drawing();
 
     al_set_target_bitmap(al_get_backbuffer(Display::display));
     al_clear_to_color(Palette::currentClearColour);
@@ -186,20 +203,20 @@ void Stage::Drawing()
 
 void Stage::DrawDebugGrid()
 {
-    for(int x = 0; x <= Frame::ARENA_WIDTH / Tile::WIDTH; x++) //Columns
+    for(int x = 0; x <= Arena::WIDTH / Tile::WIDTH; x++) //Columns
     {
         al_draw_line(x*Tile::WIDTH - (int)Camera::xPosition%(int)Tile::HEIGHT,
                      0,
                      x*Tile::WIDTH  - (int)Camera::xPosition%(int)Tile::HEIGHT,
-                     Frame::ARENA_HEIGHT,
+                     Arena::HEIGHT,
                      COLKEY_GRID,1);
     }
 
-    for(int y = 0; y <= Frame::ARENA_HEIGHT / Tile::HEIGHT; y++) //Rows
+    for(int y = 0; y <= Arena::HEIGHT / Tile::HEIGHT; y++) //Rows
     {
         al_draw_line(0,
                      y*Tile::WIDTH  - (int)Camera::yPosition%(int)Tile::HEIGHT,
-                     Frame::ARENA_WIDTH,
+                     Arena::WIDTH,
                      y*Tile::WIDTH  - (int)Camera::yPosition%(int)Tile::HEIGHT,
                      COLKEY_GRID,1);
     }
@@ -209,8 +226,8 @@ void Stage::DrawDebugGrid()
 
 void Stage::DrawDebugGridCameraCrosshair()
 {
-    al_draw_line(Frame::ARENA_WIDTH/2, 0, Frame::ARENA_WIDTH/2, Frame::ARENA_HEIGHT, COLKEY_CAMERA_CROSSHAIR_LOCKED, 1);
-    al_draw_line(0, Frame::ARENA_HEIGHT/2, Frame::ARENA_WIDTH, Frame::ARENA_HEIGHT/2, COLKEY_CAMERA_CROSSHAIR_LOCKED, 1);
+    al_draw_line(Arena::WIDTH/2, 0, Arena::WIDTH/2, Arena::HEIGHT, COLKEY_CAMERA_CROSSHAIR_LOCKED, 1);
+    al_draw_line(0, Arena::HEIGHT/2, Arena::WIDTH, Arena::HEIGHT/2, COLKEY_CAMERA_CROSSHAIR_LOCKED, 1);
 }
 
 

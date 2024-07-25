@@ -6,7 +6,7 @@
 #include "particle.h"
 #include "emitter.h"
 
-#include "frame.h"
+#include "arena.h"
 
 #include <cmath>
 #include <iostream>

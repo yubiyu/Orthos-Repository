@@ -6,16 +6,22 @@
 
 #include "particle.h"
 #include "emitter.h"
+#include "subship.h"
 
 #include "reticle.h"
 
 #include "hax.h"
 
+#include <vector>
 #include <cmath>
 
 class PC : public Ship
 {
     Emitter* mainEmitter;
+    std::vector<Subship*>subships;
+
+    float subshipOrbit;
+    float subshipOrbitRate;
 
     bool fireCommandReceived;
 
@@ -38,6 +44,8 @@ public:
 
     void Logic();
     void Drawing();
+
+    void LockonRelease();
 
     bool GetFireCommandReceived(){return fireCommandReceived;}
     void SetFireCommandReceived(bool active){fireCommandReceived = active;}

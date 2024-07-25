@@ -13,6 +13,8 @@ Actor::~Actor()
 void Actor::Initialize()
 {
     SetIsActive(true);
+    SetIsAlive(true);
+    SetIsInBounds(true);
     SetIsVisible(true);
     SetIsCollidable(true);
 

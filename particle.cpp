@@ -24,16 +24,35 @@ void Particle::Initialize(int form, float speed, float angle, int lifespan)
 
 void Particle::Logic()
 {
-    lifespanElasped++;
-    if(lifespanElasped >= lifespan)
-        SetIsActive(false);
+    if(GetIsAlive() && GetIsInBounds())
+    {
+        lifespanElasped++;
+        if(lifespanElasped >= lifespan)
+            SetIsAlive(false);
 
+        SetXPosition(GetXPosition() + GetMoveSpeed()*std::cos(GetMoveAngle()));
+        SetYPosition(GetYPosition() + GetMoveSpeed()*std::sin(GetMoveAngle()));
 
+        SetSpriteRotation(GetMoveAngle());
 
-    SetXPosition(GetXPosition() + GetMoveSpeed()*std::cos(GetMoveAngle()));
-    SetYPosition(GetYPosition() + GetMoveSpeed()*std::sin(GetMoveAngle()));
+        if(GetXPosition() < 0 || GetXPosition() > Arena::WIDTH
+                || GetYPosition() < 0 || GetYPosition() > Arena::HEIGHT)
+        {
+            SetIsInBounds(false);
+        }
+    }
+    else
+    {
+        if(!GetIsAlive())
+        {
+            SetIsActive(false);
+        }
 
-    SetSpriteRotation(GetMoveAngle());
+        if(!GetIsInBounds())
+        {
+            SetIsActive(false);
+        }
+    }
 }
 
 void Particle::Drawing()

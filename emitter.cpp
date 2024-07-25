@@ -68,7 +68,7 @@ void Emitter::Logic()
         {
             if(isOnline)
             {
-                Audio::AddSfx(0);
+                Audio::AddSfx(Audio::genericLaserShootWav);
 
                 float arcStartAngle = fireAngle - fireArcLength/2;
                 //float arcEndAngle = fireAngle + fireArcLength/2;

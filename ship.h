@@ -21,7 +21,6 @@ class Ship : public Actor
 
     bool hasTrackedPosition;
 
-
     Propulsion* movePropulsion;
 
 

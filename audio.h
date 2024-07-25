@@ -16,6 +16,8 @@ struct Audio
     static ALLEGRO_SAMPLE*genericClickWav;
     static ALLEGRO_SAMPLE*genericLaserShootWav;
 
+    static ALLEGRO_SAMPLE*acquireLockWav;
+
     static float bgmGain;
     static float sfxGain;
 
@@ -28,7 +30,7 @@ struct Audio
     static void SetBgmGain(float gain);
     static void SetSfxGain(float gain);
 
-    static void AddSfx(int whichSfx);
+    static void AddSfx(ALLEGRO_SAMPLE* whichSfx);
 
     static void Logic();
 };

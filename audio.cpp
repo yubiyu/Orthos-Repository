@@ -5,6 +5,8 @@ ALLEGRO_SAMPLE* Audio::genericPickupCoinWav;
 ALLEGRO_SAMPLE* Audio::genericClickWav;
 ALLEGRO_SAMPLE* Audio::genericLaserShootWav;
 
+ALLEGRO_SAMPLE* Audio::acquireLockWav;
+
 ALLEGRO_SAMPLE_INSTANCE* Audio::activeBgmInstance;
 std::vector<ALLEGRO_SAMPLE_INSTANCE*> Audio::activeSfxInstances;
 
@@ -47,6 +49,8 @@ void Audio::LoadResources()
     genericPickupCoinWav = al_load_sample("genericPickupCoinWav.wav");
     genericClickWav = al_load_sample("genericClickWav.wav");
     genericLaserShootWav = al_load_sample("genericLaserShootWav.wav");
+
+    acquireLockWav = al_load_sample("acquireLock.wav");
 }
 
 void Audio::UnloadResources()
@@ -54,7 +58,9 @@ void Audio::UnloadResources()
     al_destroy_sample(genericBgmMp3);
     al_destroy_sample(genericPickupCoinWav);
     al_destroy_sample(genericClickWav);
+
     al_destroy_sample(genericLaserShootWav);
+    al_destroy_sample(acquireLockWav);
 }
 
 void Audio::SetBgmGain(float gain)
@@ -67,16 +73,10 @@ void Audio::SetSfxGain(float gain)
     sfxGain = gain;
 }
 
-void Audio::AddSfx(int whichSfx)
+void Audio::AddSfx(ALLEGRO_SAMPLE*  whichSfx)
 {
     ALLEGRO_SAMPLE_INSTANCE*sfx;
-
-    switch(whichSfx)
-    {
-        default:
-        sfx = al_create_sample_instance(Audio::genericLaserShootWav);
-        break;
-    }
+    sfx = al_create_sample_instance(whichSfx);
 
     al_set_sample_instance_gain(sfx, Audio::sfxGain);
     al_attach_sample_instance_to_mixer(sfx, al_get_default_mixer());

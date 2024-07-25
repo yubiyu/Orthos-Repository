@@ -14,6 +14,7 @@
 #include "pc.h"
 #include "npc.h"
 #include "particle.h"
+#include "lockon.h"
 #include "generator.h"
 #include "reticle.h"
 

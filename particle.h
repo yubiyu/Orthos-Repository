@@ -10,6 +10,8 @@
 #include <cmath>
 #include <iostream>
 
+#include "arena.h"
+
 class Particle : public Actor
 {
 

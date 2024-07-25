@@ -10,7 +10,10 @@ NPC::NPC()
 NPC::~NPC()
 {
     if(mainEmitter != nullptr)
+    {
         delete mainEmitter;
+        mainEmitter = nullptr;
+    }
 }
 
 void NPC::Initialize(int whichHullType, float x_pos, float y_pos, float x_dest, float y_dest)
@@ -63,75 +66,85 @@ void NPC::Initialize(int whichHullType, float x_pos, float y_pos, float x_dest, 
 
 void NPC::Logic()
 {
-    switch(moveAI)
+    if(GetIsAlive() && GetIsInBounds())
     {
-    case MOVE_AI_UNMOVING:
-
-        break;
-
-    case MOVE_AI_APPROACH_DESTINATION:
-    {
-        float opposite = yDestination - GetYPosition();
-        float adjacent = xDestination - GetXPosition();
-        SetMoveAngle( std::atan2(opposite, adjacent) );
-        SetXPosition( GetXPosition() + std::cos(GetMoveAngle())*GetMoveSpeed());
-        SetYPosition( GetYPosition() + std::sin(GetMoveAngle())*GetMoveSpeed());
-
-        break;
-    }
-
-    case MOVE_AI_SHADOW_SHIP:
-
-        break;
-
-    case MOVE_AI_ORBIT_DESTINATION:
-
-        break;
-    }
-
-    if(GetCurrentHP() <= 0)
-    {
-        EmitDeathSparks();
-        SetIsActive(false);
-    }
-
-    SetSpriteRotation(GetMoveAngle());
-
-    if(GetXPosition() < 0 || GetXPosition() > Frame::ARENA_WIDTH
-            || GetYPosition() < 0 || GetYPosition() > Frame::ARENA_HEIGHT)
-    {
-        SetIsActive(false);
-    }
-
-
-    mainEmitter->SetXYPosition(GetXPosition(), GetYPosition());
-
-    if(GetHasTrackedTarget())
-    {
-        if(mainEmitter->GetTrackedTarget() != Ship::GetTrackedTarget())
+        switch(moveAI)
         {
-            mainEmitter->SetTrackedTarget(Ship::GetTrackedTarget());
+        case MOVE_AI_UNMOVING:
+
+            break;
+
+        case MOVE_AI_APPROACH_DESTINATION:
+        {
+            float opposite = yDestination - GetYPosition();
+            float adjacent = xDestination - GetXPosition();
+            SetMoveAngle( std::atan2(opposite, adjacent) );
+            SetXPosition( GetXPosition() + std::cos(GetMoveAngle())*GetMoveSpeed());
+            SetYPosition( GetYPosition() + std::sin(GetMoveAngle())*GetMoveSpeed());
+
+            break;
         }
-    }
 
-    mainEmitter->Logic();
+        case MOVE_AI_SHADOW_SHIP:
 
-    for(std::vector<Bullet*>::iterator it = Bullet::bullets.begin(); it != Bullet::bullets.end(); ++it)
-    {
-        if(!(*it)->GetIsNPCBullet())
+            break;
+
+        case MOVE_AI_ORBIT_DESTINATION:
+
+            break;
+        }
+
+        if(GetCurrentHP() <= 0)
         {
-            if(Hax::AABBCollision(GetXPosition() + GetHitboxXOffset(), GetYPosition() + GetHitboxYOffset(), GetHitboxWidth(), GetHitboxHeight(),
-                                  (*it)->GetXPosition() + (*it)->GetHitboxXOffset(), (*it)->GetYPosition() + (*it)->GetHitboxYOffset(), (*it)->GetHitboxWidth(), (*it)->GetHitboxHeight()))
+            EmitDeathSparks();
+            SetIsAlive(false);
+        }
+
+        SetSpriteRotation(GetMoveAngle());
+
+        if(GetXPosition() < 0 || GetXPosition() > Arena::WIDTH
+                || GetYPosition() < 0 || GetYPosition() > Arena::HEIGHT)
+        {
+            SetIsInBounds(false);
+        }
+
+
+        mainEmitter->SetXYPosition(GetXPosition(), GetYPosition());
+
+        if(GetHasTrackedTarget())
+        {
+            if(mainEmitter->GetTrackedTarget() != Ship::GetTrackedTarget())
             {
-                SetCurrentHP(GetCurrentHP() - (*it)->GetDamage());
+                mainEmitter->SetTrackedTarget(Ship::GetTrackedTarget());
+            }
+        }
 
-                (*it)->EmitHitSparks(Particle::PARTICLE_FORM_NPC_HIT);
-                (*it)->SetIsActive(false);
+        mainEmitter->Logic();
 
+        for(std::vector<Bullet*>::iterator it = Bullet::bullets.begin(); it != Bullet::bullets.end(); ++it)
+        {
+            if(!(*it)->GetIsNPCBullet())
+            {
+                if(Hax::AABBCollision(GetXPosition() + GetHitboxXOffset(), GetYPosition() + GetHitboxYOffset(), GetHitboxWidth(), GetHitboxHeight(),
+                                      (*it)->GetXPosition() + (*it)->GetHitboxXOffset(), (*it)->GetYPosition() + (*it)->GetHitboxYOffset(), (*it)->GetHitboxWidth(), (*it)->GetHitboxHeight()))
+                {
+                    SetCurrentHP(GetCurrentHP() - (*it)->GetDamage());
+
+                    (*it)->EmitHitSparks(Particle::PARTICLE_FORM_NPC_HIT);
+                    (*it)->SetIsActive(false);
+
+                }
             }
         }
     }
+    else
+    {
+        if(!GetIsAlive())
+            SetIsActive(false);
 
+        if(!GetIsInBounds())
+            SetIsActive(false);
+    }
 }
 
 void NPC::Drawing()

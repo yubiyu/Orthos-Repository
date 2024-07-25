@@ -20,7 +20,7 @@ float Camera::yDestination;
 void Camera::Initialize()
 {
     al_identity_transform(&identityTransform);
-    cameraBuffer = al_create_bitmap(Frame::ARENA_WIDTH, Frame::ARENA_HEIGHT);
+    cameraBuffer = al_create_bitmap(Arena::WIDTH, Arena::HEIGHT);
 
     zoomScale = 1.0;
     zoomTranslateX = 0; // At 1.0 scale

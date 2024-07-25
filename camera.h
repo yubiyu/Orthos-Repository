@@ -7,7 +7,7 @@
 #include <allegro5/allegro5.h>
 
 #include "tile.h"
-#include "frame.h"
+#include "arena.h"
 
 struct Camera
 {

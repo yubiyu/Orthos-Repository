@@ -13,9 +13,14 @@ ALLEGRO_BITMAP* Image::settingsVolumeBarEmptyPng;
 ALLEGRO_BITMAP* Image::framePng;
 ALLEGRO_BITMAP* Image::frameEmitterIconPng;
 ALLEGRO_BITMAP* Image::frameEmitterIconSub[6];
+ALLEGRO_BITMAP* Image::frameLockonBubbleBluePng;
+ALLEGRO_BITMAP* Image::frameLockonBubbleRedPng;
+ALLEGRO_BITMAP* Image::frameLockonBarBluePng;
+ALLEGRO_BITMAP* Image::frameLockonBarRedPng;
 
 ALLEGRO_BITMAP* Image::pcShipPng;
 ALLEGRO_BITMAP* Image::pcShipSub[4];
+ALLEGRO_BITMAP* Image::pcSubshipPng;
 
 ALLEGRO_BITMAP *Image::npcShipPng;
 ALLEGRO_BITMAP *Image::npcShipSub[4];
@@ -27,6 +32,7 @@ ALLEGRO_BITMAP* Image::particlePng;
 ALLEGRO_BITMAP* Image::particleSub[4];
 
 ALLEGRO_BITMAP* Image::reticlePng;
+ALLEGRO_BITMAP* Image::lockonPng;
 
 void Image::Initialize()
 {
@@ -60,14 +66,20 @@ void Image::LoadResources()
     for(int i = 0; i < 6; i++)
         frameEmitterIconSub[i] = al_create_sub_bitmap(frameEmitterIconPng, 0, i*0, 64, 64); /// placeholder
 
+    frameLockonBubbleBluePng = al_load_bitmap("frameLockonBubbleBlue.png");
+    frameLockonBubbleRedPng = al_load_bitmap("frameLockonBubbleRed.png");
+    frameLockonBarBluePng = al_load_bitmap("frameLockonBarBlue.png");
+    frameLockonBarRedPng = al_load_bitmap("frameLockonBarRed.png");
+
     pcShipPng = al_load_bitmap("pcShip.png");
     for(int i = 0; i < 4; i++)
         pcShipSub[i] = al_create_sub_bitmap(pcShipPng, 0, i*64, 64, 64);
 
+    pcSubshipPng = al_load_bitmap("pcSubship.png");
+
     npcShipPng = al_load_bitmap("npcShip.png");
     for(int i = 0; i < 4; i++)
         npcShipSub[i] = al_create_sub_bitmap(npcShipPng, 0, i*64, 64, 64);
-
 
     bulletPng = al_load_bitmap("bullet.png");
     for(int i = 0; i < 4; i++)
@@ -78,6 +90,7 @@ void Image::LoadResources()
         particleSub[i] = al_create_sub_bitmap(particlePng, 0, i*64, 64, 64);
 
     reticlePng = al_load_bitmap("reticle.png");
+    lockonPng = al_load_bitmap("lockon.png");
 
 
 }
@@ -100,10 +113,16 @@ void Image::UnloadResources()
         al_destroy_bitmap(frameEmitterIconSub[i]);
     al_destroy_bitmap(frameEmitterIconPng);
 
+    al_destroy_bitmap(frameLockonBubbleBluePng);
+    al_destroy_bitmap(frameLockonBubbleRedPng);
+    al_destroy_bitmap(frameLockonBarBluePng);
+    al_destroy_bitmap(frameLockonBarRedPng);
 
     for(int i = 0; i < 4; i++)
         al_destroy_bitmap(pcShipSub[i]);
     al_destroy_bitmap(pcShipPng);
+
+    al_destroy_bitmap(pcSubshipPng);
 
     for(int i = 0; i < 4; i++)
         al_destroy_bitmap(npcShipSub[i]);
@@ -118,6 +137,7 @@ void Image::UnloadResources()
     al_destroy_bitmap(particlePng);
 
     al_destroy_bitmap(reticlePng);
+    al_destroy_bitmap(lockonPng);
 
 }
 

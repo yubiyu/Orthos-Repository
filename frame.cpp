@@ -11,8 +11,8 @@ std::string Frame::lockonStatusString[8];
 
 std::string Frame::mainWeaponNameString;
 std::string Frame::mainWeaponStatusString;
-std::string Frame::subWeaponNameString;
-std::string Frame::subWeaponStatusString;
+std::string Frame::subshipNameString;
+std::string Frame::subshipStatusString;
 
 void Frame::Initialize()
 {
@@ -27,17 +27,17 @@ void Frame::Initialize()
 
     scoreString = "0000000000";
 
-    bombNameString = "CRS-DIVARI";
+    bombNameString = "CR-KLAFTHMOS";
     bombStatusString = "0%";
 
     for(int i = 0; i < 8; i++)
-        lockonStatusString[i] = "Recalibrating";
+        lockonStatusString[i] = " ";
 
-    mainWeaponNameString = "MC-ORTH";
+    mainWeaponNameString = "MC-ORTHOS";
     mainWeaponStatusString = "Level 1";
 
-    subWeaponNameString = "SC-KLAI";
-    subWeaponStatusString = "Level 1";
+    subshipNameString = "SC-XIPHOS";
+    subshipStatusString = "Level 1";
 }
 
 void Frame::Drawing()
@@ -52,15 +52,37 @@ void Frame::Drawing()
     Hax::string_al_draw_text(Font::monogram32, COLKEY_TEXT_LIGHT, BOMB_NAME_READOUT_X, BOMB_NAME_READOUT_Y, ALLEGRO_ALIGN_LEFT, bombNameString);
     Hax::string_al_draw_text(Font::monogram32, COLKEY_TEXT_LIGHT, BOMB_STATUS_READOUT_X, BOMB_STATUS_READOUT_Y, ALLEGRO_ALIGN_LEFT, bombStatusString);
 
-    for(int i = 0; i < 8; i++)
-        Hax::string_al_draw_text(Font::monogram32, COLKEY_TEXT_LIGHT, LOCKON_STATUS_READOUT_X, LOCKON_STATUS_READOUT_Y + i*LOCKON_STATUS_READOUT_Y_SPACING, ALLEGRO_ALIGN_LEFT, lockonStatusString[i]);
+    for(int i = 0; i < Lockon::NUM_LOCKS; i++)
+    {
+        switch(Lockon::GetLockState(i))
+        {
+            case Lockon::LOCKON_STATE_READY:
+                lockonStatusString[i] = "Ready";
+            break;
 
+            case Lockon::LOCKON_STATE_ACQUIRED:
+                lockonStatusString[i] = "Lock-on!";
+                al_draw_bitmap(Image::frameLockonBubbleBluePng, LOCKON_STATUS_BUBBLE_X, LOCKON_STATUS_BUBBLE_Y + i*LOCKON_STATUS_Y_SPACING, 0);
+                al_draw_bitmap_region(Image::frameLockonBarBluePng, 0, 0, LOCKON_BAR_WIDTH * ((float)Lockon::lockCoherence[i] / Lockon::BASE_LOCK_COHERENCE), LOCKON_BAR_HEIGHT, LOCKON_STATUS_BAR_X, LOCKON_STATUS_BAR_Y + i*LOCKON_STATUS_Y_SPACING, 0);
+
+            break;
+
+            case Lockon::LOCKON_STATE_FIRE_GUIDANCE:
+                lockonStatusString[i] = "Guidance";
+                al_draw_bitmap(Image::frameLockonBubbleRedPng, LOCKON_STATUS_BUBBLE_X, LOCKON_STATUS_BUBBLE_Y + i*LOCKON_STATUS_Y_SPACING, 0);
+                al_draw_bitmap(Image::frameLockonBarRedPng, LOCKON_STATUS_BAR_X, LOCKON_STATUS_BAR_Y + i*LOCKON_STATUS_Y_SPACING, 0);
+
+            break;
+        }
+        Hax::string_al_draw_text(Font::monogram32, COLKEY_TEXT_LIGHT, LOCKON_STATUS_READOUT_X, LOCKON_STATUS_READOUT_Y + i*LOCKON_STATUS_Y_SPACING, ALLEGRO_ALIGN_LEFT, lockonStatusString[i]);
+
+    }
     al_draw_bitmap(Image::frameEmitterIconSub[FRAME_EMITTER_ICON_ORTHOS_MAIN], MAIN_WEAPON_ICON_X, MAIN_WEAPON_ICON_Y, 0);
     Hax::string_al_draw_text(Font::monogram32, COLKEY_TEXT_LIGHT, MAIN_WEAPON_NAME_READOUT_X, MAIN_WEAPON_NAME_READOUT_Y, ALLEGRO_ALIGN_LEFT, mainWeaponNameString);
     Hax::string_al_draw_text(Font::monogram32, COLKEY_TEXT_LIGHT, MAIN_WEAPON_STATUS_READOUT_X, MAIN_WEAPON_STATUS_READOUT_Y, ALLEGRO_ALIGN_LEFT, mainWeaponStatusString);
 
-    Hax::string_al_draw_text(Font::monogram32, COLKEY_TEXT_LIGHT, SUB_WEAPON_NAME_READOUT_X, SUB_WEAPON_NAME_READOUT_Y, ALLEGRO_ALIGN_LEFT, subWeaponNameString);
-    Hax::string_al_draw_text(Font::monogram32, COLKEY_TEXT_LIGHT, SUB_WEAPON_STATUS_READOUT_X, SUB_WEAPON_STATUS_READOUT_Y, ALLEGRO_ALIGN_LEFT, subWeaponStatusString);
+    Hax::string_al_draw_text(Font::monogram32, COLKEY_TEXT_LIGHT, SUBSHIP_NAME_READOUT_X, SUBSHIP_NAME_READOUT_Y, ALLEGRO_ALIGN_LEFT, subshipNameString);
+    Hax::string_al_draw_text(Font::monogram32, COLKEY_TEXT_LIGHT, SUBSHIP_STATUS_READOUT_X, SUBSHIP_STATUS_READOUT_Y, ALLEGRO_ALIGN_LEFT, subshipStatusString);
 }
 
 void Frame::UpdateScoreString(int score)

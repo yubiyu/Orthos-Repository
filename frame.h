@@ -5,6 +5,9 @@
 #include "font.h"
 #include "palette.h"
 
+#include "lockon.h"
+
+#include "arena.h"
 #include "tile.h"
 
 #include "hax.h"
@@ -17,8 +20,7 @@ struct Frame
 {
     static constexpr float ARENA_X = 320;
     static constexpr float ARENA_Y = 24;
-    static constexpr float ARENA_WIDTH = 640;
-    static constexpr float ARENA_HEIGHT = 912;
+    static constexpr float ARENA_HEIGHT = Arena::HEIGHT;
 
     static constexpr float CHAPTER_READOUT_X = Tile::WIDTH*2;
     static constexpr float CHAPTER_READOUT_Y = Tile::HEIGHT*4;
@@ -53,9 +55,15 @@ struct Frame
     static std::string bombNameString;
     static std::string bombStatusString;
 
+    static constexpr float LOCKON_STATUS_BUBBLE_X = 64;
+    static constexpr float LOCKON_STATUS_BUBBLE_Y = 464;
+    static constexpr float LOCKON_STATUS_BAR_X = 104;
+    static constexpr float LOCKON_STATUS_BAR_Y = LOCKON_STATUS_BUBBLE_Y;
     static constexpr float LOCKON_STATUS_READOUT_X = 104;
     static constexpr float LOCKON_STATUS_READOUT_Y = 456;
-    static constexpr float LOCKON_STATUS_READOUT_Y_SPACING = 40;
+    static constexpr float LOCKON_STATUS_Y_SPACING = 40;
+    static constexpr float LOCKON_BAR_WIDTH = 152;
+    static constexpr float LOCKON_BAR_HEIGHT = 16;
     static std::string lockonStatusString[8];
 
     static constexpr float MAIN_WEAPON_ICON_X = 56;
@@ -67,12 +75,12 @@ struct Frame
     static std::string mainWeaponNameString;
     static std::string mainWeaponStatusString;
 
-    static constexpr float SUB_WEAPON_NAME_READOUT_X = 132;
-    static constexpr float SUB_WEAPON_NAME_READOUT_Y = 856;
-    static constexpr float SUB_WEAPON_STATUS_READOUT_X = SUB_WEAPON_NAME_READOUT_X;
-    static constexpr float SUB_WEAPON_STATUS_READOUT_Y = SUB_WEAPON_NAME_READOUT_Y + 32;
-    static std::string subWeaponNameString;
-    static std::string subWeaponStatusString;
+    static constexpr float SUBSHIP_NAME_READOUT_X = 132;
+    static constexpr float SUBSHIP_NAME_READOUT_Y = 856;
+    static constexpr float SUBSHIP_STATUS_READOUT_X = SUBSHIP_NAME_READOUT_X;
+    static constexpr float SUBSHIP_STATUS_READOUT_Y = SUBSHIP_NAME_READOUT_Y + 32;
+    static std::string subshipNameString;
+    static std::string subshipStatusString;
 
     static void Initialize();
 
