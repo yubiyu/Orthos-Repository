@@ -20,6 +20,8 @@ struct Image
     static ALLEGRO_BITMAP *framePng;
     static ALLEGRO_BITMAP *frameEmitterIconPng;
     static ALLEGRO_BITMAP *frameEmitterIconSub[6];
+    static ALLEGRO_BITMAP *frameSubshipIconPng;
+    static ALLEGRO_BITMAP *frameSubshipIconSub[6];
     static ALLEGRO_BITMAP *frameLockonBubbleBluePng;
     static ALLEGRO_BITMAP *frameLockonBubbleRedPng;
     static ALLEGRO_BITMAP *frameLockonBarBluePng;
@@ -36,7 +38,7 @@ struct Image
     static ALLEGRO_BITMAP *bulletSub[4];
 
     static ALLEGRO_BITMAP *particlePng;
-    static ALLEGRO_BITMAP *particleSub[4];
+    static ALLEGRO_BITMAP *particleSub[5];
 
     static ALLEGRO_BITMAP *reticlePng;
     static ALLEGRO_BITMAP *lockonPng;

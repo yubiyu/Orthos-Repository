@@ -31,12 +31,9 @@ void PC::Initialize(int whichHullType)
 
     Subship* initialSubshipA;
     Subship* initialSubshipB;
-    Subship* initialSubshipC;
-    Subship* initialSubshipD;
+
     initialSubshipA = new Subship();
     initialSubshipB = new Subship();
-    initialSubshipC = new Subship();
-    initialSubshipD = new Subship();
 
 
     switch(Ship::GetHullType())
@@ -46,8 +43,6 @@ void PC::Initialize(int whichHullType)
 
         initialSubshipA->Initialize(Subship::HULL_SUBSHIP_XIPHOS, this);
         initialSubshipB->Initialize(Subship::HULL_SUBSHIP_XIPHOS, this);
-        initialSubshipC->Initialize(Subship::HULL_SUBSHIP_XIPHOS, this);
-        initialSubshipD->Initialize(Subship::HULL_SUBSHIP_XIPHOS, this);
 
         break;
     case HULL_PC_ORTHOS_B:
@@ -64,8 +59,6 @@ void PC::Initialize(int whichHullType)
 
     subships.push_back(initialSubshipA);
     subships.push_back(initialSubshipB);
-    subships.push_back(initialSubshipC);
-    subships.push_back(initialSubshipD);
 
     SetXYPosition(320,720);
     SetMoveAngle(0.75 * 2*ALLEGRO_PI);
@@ -135,18 +128,21 @@ void PC::Logic()
     }
 }
 
-void PC::Drawing()
+void PC::MainDrawing()
 {
-    for(std::vector<Subship*>::iterator it = subships.begin(); it != subships.end(); ++it)
-    {
-        (*it)->Drawing();
-    }
-
     al_draw_rotated_bitmap(Image::pcShipSub[GetHullType()],
                            GetSpriteWidth()/2, GetSpriteHeight()/2,
                            GetXPosition(), GetYPosition(),
                            GetSpriteRotation(),
                            0);
+}
+
+void PC::SubshipDrawing()
+{
+    for(std::vector<Subship*>::iterator it = subships.begin(); it != subships.end(); ++it)
+    {
+        (*it)->Drawing();
+    }
 }
 
 void PC::LockonRelease()
@@ -159,7 +155,8 @@ void PC::LockonRelease()
         if(Lockon::GetLockState(i) == Lockon::LOCKON_STATE_ACQUIRED)
         {
             Lockon::SetLockStateFireGuidance(i);
-            subships[assignmentIndex]->AssignTarget(Lockon::lockTargets.at(i));
+            subships[assignmentIndex]->AssignLockon(i);
+
             assignmentIndex ++;
             if(assignmentIndex >= numSubships)
                 assignmentIndex = 0;

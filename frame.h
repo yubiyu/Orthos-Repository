@@ -40,12 +40,13 @@ struct Frame
     enum enumFrameEmitterIcons
     {
         FRAME_EMITTER_ICON_ORTHOS_MAIN = 0,
-        FRAME_EMITTER_ICON_ORTHOS_SUB = 1,
-        FRAME_EMITTER_ICON_ORTHOS_BOMB = 2,
+        FRAME_EMITTER_ICON_LITHOS_MAIN = 1,
+    };
 
-        FRAME_EMITTER_ICON_LITHOS_MAIN = 3,
-        FRAME_EMITTER_ICON_LITHOS_SUB = 4,
-        FRAME_EMITTER_ICON_LITHOS_BOMB = 5
+    enum enumFrameSubshipIcons
+    {
+        FRAME_SUBSHIP_ICON_XIPHOS = 0,
+        FRAME_SUBSHIP_ICON_EFTHYMIA = 1
     };
 
     static constexpr float BOMB_NAME_READOUT_X = 136;
@@ -75,6 +76,8 @@ struct Frame
     static std::string mainWeaponNameString;
     static std::string mainWeaponStatusString;
 
+    static constexpr float SUBSHIP_ICON_X = 56;
+    static constexpr float SUBSHIP_ICON_Y = 856;
     static constexpr float SUBSHIP_NAME_READOUT_X = 132;
     static constexpr float SUBSHIP_NAME_READOUT_Y = 856;
     static constexpr float SUBSHIP_STATUS_READOUT_X = SUBSHIP_NAME_READOUT_X;

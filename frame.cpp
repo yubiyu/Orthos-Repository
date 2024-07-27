@@ -28,7 +28,7 @@ void Frame::Initialize()
     scoreString = "0000000000";
 
     bombNameString = "CR-KLAFTHMOS";
-    bombStatusString = "0%";
+    bombStatusString = "[ DISABLED ]";
 
     for(int i = 0; i < 8; i++)
         lockonStatusString[i] = " ";
@@ -81,6 +81,7 @@ void Frame::Drawing()
     Hax::string_al_draw_text(Font::monogram32, COLKEY_TEXT_LIGHT, MAIN_WEAPON_NAME_READOUT_X, MAIN_WEAPON_NAME_READOUT_Y, ALLEGRO_ALIGN_LEFT, mainWeaponNameString);
     Hax::string_al_draw_text(Font::monogram32, COLKEY_TEXT_LIGHT, MAIN_WEAPON_STATUS_READOUT_X, MAIN_WEAPON_STATUS_READOUT_Y, ALLEGRO_ALIGN_LEFT, mainWeaponStatusString);
 
+    al_draw_bitmap(Image::frameSubshipIconSub[FRAME_SUBSHIP_ICON_XIPHOS], SUBSHIP_ICON_X, SUBSHIP_ICON_Y, 0);
     Hax::string_al_draw_text(Font::monogram32, COLKEY_TEXT_LIGHT, SUBSHIP_NAME_READOUT_X, SUBSHIP_NAME_READOUT_Y, ALLEGRO_ALIGN_LEFT, subshipNameString);
     Hax::string_al_draw_text(Font::monogram32, COLKEY_TEXT_LIGHT, SUBSHIP_STATUS_READOUT_X, SUBSHIP_STATUS_READOUT_Y, ALLEGRO_ALIGN_LEFT, subshipStatusString);
 }

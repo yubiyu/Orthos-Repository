@@ -4,13 +4,16 @@
 #include "image.h"
 
 #include "ship.h"
+#include "particle.h"
+
+#include "lockon.h"
 
 #include <cmath>
 
 class Subship : public Ship
 {
     Ship* attachedShip;
-    std::vector<Ship*>assignedTargets;
+    std::vector<int>assignedLockons;
 
     float attachmentAngle;
     float attachmentRadius;
@@ -19,19 +22,38 @@ class Subship : public Ship
     float attachmentYOffset;
 
     bool isDetached; // When in detached mode, subships obey their own positioning logic instead of having their positions automatically adjusted by the attached ship
-    int detachedModePhase;
-    enum enumDetachedModePhases
+    int phase;
+    enum enumPhases
     {
+        ATTACHED_ORBIT,
+
         // "Xiphos routine"
         DETACHED_WARP_TO_TARGET, // Warp into vicinity of target.
         DETACHED_ATTACK_TARGET, // Fire subship weapon at target
         DETACHED_RETURN_WARP // Warp back to attachment position, ending detached mode
     };
 
+    float warpToTargetAngle;
+    float warpToTargetRadius;
+    const float WARP_TO_TARGET_RADIUS_MIN = 64;
+    const float WARP_TO_TARGET_RADIUS_MAX = 256;
+    int warpToTargetDelay;
+    const int WARP_TO_TARGET_DELAY_PERIOD = Timer::FPS * 0.2;
+
+    int attackTargetDelay;
+    const int ATTACK_TARGET_DELAY_PERIOD = Timer::FPS * 0.3;
+
+    int returnWarpDelay;
+    const int RETURN_WARP_DELAY_PERIOD = Timer::FPS * 0.2;
+
+    Emitter *mainEmitter;
+
+
 public:
     enum enumSubshipHull
     {
-        HULL_SUBSHIP_XIPHOS = 0
+        HULL_SUBSHIP_XIPHOS = 0,
+        HULL_SUBSHIP_EFTHYMIA = 1
     };
 
     Subship();
@@ -59,10 +81,12 @@ public:
     float GetIsDetached(){return isDetached;}
     void SetIsDetached(bool is_detached){isDetached = is_detached;}
 
-    int GetDetachedModePhase(){return detachedModePhase;}
-    void SetDetachedModePhase(int phase){detachedModePhase = phase;}
+    int GetPhase(){return phase;}
+    void SetPhase(int which_phase);
 
-    void AssignTarget(Ship* target){assignedTargets.push_back(target);}
+    void AssignLockon(int index){assignedLockons.push_back(index);}
+
+    void CreateWarpToTargetAfterimages(float x1, float y1, float x2, float y2);
 
 };
 

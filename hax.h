@@ -32,6 +32,12 @@ struct Hax
         return true;
     }
 
+    static float LinearInterpolateX(float x1, float y1, float x2, float y2, float x)
+    {
+        float y = y1 + (y2 - y1) * (x - x1) / (x2 - x1);
+        return y;
+    }
+
     static int string_al_get_text_width(const ALLEGRO_FONT *f, std::string str)
     {
         const char *c = str.c_str();

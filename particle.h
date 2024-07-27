@@ -27,8 +27,11 @@ public:
     {
         PARTICLE_FORM_PC_HIT = 0,
         PARTICLE_FORM_PC_EXPLODE = 1,
+
         PARTICLE_FORM_NPC_HIT = 2,
-        PARTICLE_FORM_NPC_EXPLODE = 3
+        PARTICLE_FORM_NPC_EXPLODE = 3,
+
+        PARTICLE_FORM_SUBSHIP_XIPHOS_AFTERIMAGE = 4
     };
 
     Particle();

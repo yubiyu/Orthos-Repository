@@ -43,7 +43,8 @@ public:
     void Initialize(int whichHullType);
 
     void Logic();
-    void Drawing();
+    void MainDrawing();
+    void SubshipDrawing();
 
     void LockonRelease();
 

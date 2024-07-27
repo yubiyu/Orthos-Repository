@@ -178,10 +178,12 @@ void Stage::Drawing()
     for(std::vector<NPC*>::iterator it = NPC::npcs.begin(); it != NPC::npcs.end(); ++it)
         (*it)->Drawing();
 
-    PC::pc->Drawing();
+    PC::pc->MainDrawing();
 
     for(std::vector<Particle*>::iterator it = Particle::particles.begin(); it != Particle::particles.end(); ++it)
         (*it)->Drawing();
+
+    PC::pc->SubshipDrawing();
 
     for(std::vector<Bullet*>::iterator it = Bullet::bullets.begin(); it != Bullet::bullets.end(); ++it)
         (*it)->Drawing();
