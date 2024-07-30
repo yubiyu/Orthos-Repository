@@ -2,7 +2,7 @@
 
 Subship::Subship()
 {
-
+    attachedShip = nullptr;
 }
 
 Subship::~Subship()
@@ -33,7 +33,7 @@ void Subship::Initialize(int hull_type, Ship *attached_ship)
     switch(GetHullType())
     {
     case HULL_SUBSHIP_XIPHOS:
-        mainEmitter->Initialize(Bullet::BULLET_FORM_LARGE_ARROW, 32, 1, 0, 1.5*ALLEGRO_PI, 1, 6, 1);
+        mainEmitter->Initialize(Bullet::BULLET_FORM_LARGE_ARROW, Palette::COLOUR_INDEX_ORANGE, 32, 1, 0, 1.5*ALLEGRO_PI, 1, 6, 1);
         break;
     case HULL_SUBSHIP_EFTHYMIA:
 
@@ -57,7 +57,7 @@ void Subship::Logic()
 
     if(isDetached)
     {
-        for(std::vector<int>::iterator it = assignedLockons.begin(); it != assignedLockons.end();)
+        for(std::vector<size_t>::iterator it = assignedLockons.begin(); it != assignedLockons.end();)
         {
             if(Lockon::lockTargets[*it] == nullptr)
                 it = assignedLockons.erase(it);
@@ -203,7 +203,7 @@ void Subship::CreateWarpToTargetAfterimages(float x1, float y1, float x2, float 
         lifespan += i * 1;
 
         afterimage = new Particle();
-        afterimage->Initialize(Particle::PARTICLE_FORM_SUBSHIP_XIPHOS_AFTERIMAGE, 0, GetMoveAngle(), lifespan);
+        afterimage->Initialize(Particle::PARTICLE_FORM_SUBSHIP_XIPHOS_AFTERIMAGE, Palette::COLOUR_INDEX_ORANGE, 0, GetMoveAngle(), lifespan);
         afterimage->SetXYPosition(createX, createY);
 
         Particle::particles.push_back(afterimage);

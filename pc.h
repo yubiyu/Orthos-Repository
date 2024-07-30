@@ -17,13 +17,13 @@
 
 class PC : public Ship
 {
-    Emitter* mainEmitter;
+    Emitter* mainEmitter = nullptr;
     std::vector<Subship*>subships;
 
-    float subshipOrbit;
-    float subshipOrbitRate;
+    float subshipOrbit = 0.0;
+    float subshipOrbitRate = 0.0;
 
-    bool fireCommandReceived;
+    bool fireCommandReceived = false;
 
 public:
     static PC*pc;
@@ -36,6 +36,7 @@ public:
         HULL_PC_LITHOS_A = 2,
         HULL_PC_LITHOS_B = 3
     };
+    static const int NUM_HULL_TYPES = 4;
 
     PC();
     ~PC();
@@ -48,8 +49,18 @@ public:
 
     void LockonRelease();
 
-    bool GetFireCommandReceived(){return fireCommandReceived;}
+    bool GetFireCommandReceived() const { return fireCommandReceived; }
     void SetFireCommandReceived(bool active){fireCommandReceived = active;}
+
+    int GetSubshipHullType() const 
+    {
+        if (subships.size() > 0)
+            return subships[0]->GetHullType();
+        else
+            return Subship::HULL_SUBSHIP_XIPHOS;
+    }
+
+    void SetSubshipOrbit(float angle) { subshipOrbit = angle; }
 };
 
 #endif // PC_H_INCLUDED

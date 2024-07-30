@@ -39,7 +39,7 @@ void PC::Initialize(int whichHullType)
     switch(Ship::GetHullType())
     {
     case HULL_PC_ORTHOS_A:
-        mainEmitter->Initialize(Bullet::BULLET_FORM_LARGE_ARROW, 32, 1, 0, 1.5*ALLEGRO_PI, 4, 6, 1);
+        mainEmitter->Initialize(Bullet::BULLET_FORM_LARGE_ARROW, Palette::COLOUR_INDEX_ORANGE, 32, 1, 0, 1.5*ALLEGRO_PI, 4, 6, 1);
 
         initialSubshipA->Initialize(Subship::HULL_SUBSHIP_XIPHOS, this);
         initialSubshipB->Initialize(Subship::HULL_SUBSHIP_XIPHOS, this);
@@ -65,7 +65,7 @@ void PC::Initialize(int whichHullType)
     SetHitboxXYOffset(28,28);
     SetHitboxDimensions(8,8);
 
-    subshipOrbit = 0.0;
+    SetSubshipOrbit(0.0);
     subshipOrbitRate = (2*ALLEGRO_PI) / (Timer::FPS*4);
 
     SetFireCommandReceived(false);
@@ -85,7 +85,7 @@ void PC::Logic()
 
     mainEmitter->SetIsOnline(fireCommandReceived);
     if(fireCommandReceived)
-        mainEmitter->SetTrackedXYPosition(Reticle::frameXPosition, Reticle::frameYPosition);
+        mainEmitter->SetTrackedXYPosition(Reticle::arenaXPosition, Reticle::arenaYPosition);
 
     mainEmitter->SetXYPosition(GetXPosition(),GetYPosition());
     mainEmitter->Logic();
@@ -97,15 +97,15 @@ void PC::Logic()
             if(Hax::AABBCollision(GetXPosition() + GetHitboxXOffset(), GetYPosition() + GetHitboxYOffset(), GetHitboxWidth(), GetHitboxHeight(),
                                   (*it)->GetXPosition() + (*it)->GetHitboxXOffset(), (*it)->GetYPosition() + (*it)->GetHitboxYOffset(), (*it)->GetHitboxWidth(), (*it)->GetHitboxHeight()))
             {
-                (*it)->EmitHitSparks(Particle::PARTICLE_FORM_PC_HIT);
+                (*it)->EmitHitSparks(Particle::PARTICLE_FORM_HIT, Palette::COLOUR_INDEX_ORANGE);
                 (*it)->SetIsActive(false);
             }
         }
     }
 
 
-    float opposite = Reticle::frameYPosition - GetYPosition();
-    float adjacent = Reticle::frameXPosition - GetXPosition();
+    float opposite = Reticle::arenaYPosition - GetYPosition();
+    float adjacent = Reticle::arenaXPosition - GetXPosition();
     SetMoveAngle(std::atan2( opposite, adjacent ));
 
     SetSpriteRotation(GetMoveAngle());
@@ -147,8 +147,8 @@ void PC::SubshipDrawing()
 
 void PC::LockonRelease()
 {
-    int assignmentIndex = 0;
-    int numSubships = subships.size();
+    size_t assignmentIndex = 0;
+    size_t numSubships = subships.size();
 
     for(size_t i = 0; i < Lockon::NUM_LOCKS; i++)
     {
@@ -162,12 +162,4 @@ void PC::LockonRelease()
                 assignmentIndex = 0;
         }
     }
-
-/*
-    for(std::vector<Subship*>::iterator jt = subships.begin(); jt != subships.end(); ++jt)
-    {
-
-    }
-*/
-
 }

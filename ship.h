@@ -2,7 +2,6 @@
 #define SHIP_H_INCLUDED
 
 #include "actor.h"
-#include "propulsion.h"
 
 #include "hax.h"
 
@@ -21,8 +20,6 @@ class Ship : public Actor
 
     bool hasTrackedPosition;
 
-    Propulsion* movePropulsion;
-
 
 public:
     Ship();
@@ -30,15 +27,15 @@ public:
 
     void Initialize();
 
-    int GetHullType(){return hullType;}
+    int GetHullType() const { return hullType; }
     void SetHullType(int whichHullType){ hullType = whichHullType;}
 
-    int GetCurrentHP(){ return currentHP;}
+    int GetCurrentHP() const { return currentHP; }
     void SetCurrentHP(int hp){currentHP = hp;}
-    int GetMaxHP(){return maxHP;}
+    int GetMaxHP() const { return maxHP; }
     void SetMaxHP(int hp){currentHP = maxHP = hp;}
 
-    bool GetHasTrackedTarget(){return hasTrackedTarget;}
+    bool GetHasTrackedTarget() const { return hasTrackedTarget; }
     Ship* GetTrackedTarget(){return trackedTarget;}
     void SetTrackedTarget(Ship* target)
     {

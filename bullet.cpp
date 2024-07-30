@@ -12,9 +12,9 @@ Bullet::~Bullet()
 
 }
 
-void Bullet::Initialize(int form, float speed, float angle, int lifespan)
+void Bullet::Initialize(int form, int colour, float speed, float angle, int lifespan)
 {
-    Particle::Initialize(form, speed, angle, lifespan);
+    Particle::Initialize(form, colour, speed, angle, lifespan);
 
     SetIsNPCBullet(false);
     SetDamage(1);
@@ -45,14 +45,14 @@ void Bullet::Initialize(int form, float speed, float angle, int lifespan)
 
 void Bullet::Drawing()
 {
-    al_draw_rotated_bitmap(Image::bulletSub[GetForm()],
+    al_draw_rotated_bitmap(Image::bulletSub[GetForm() + NUM_BULLET_FORMS * GetColour()],
                            GetSpriteWidth()/2, GetSpriteHeight()/2,
                            GetXPosition(), GetYPosition(),
                            GetSpriteRotation(),
                            0);
 }
 
-void Bullet::EmitHitSparks(int particle_form)
+void Bullet::EmitHitSparks(int particle_form, int particle_colour)
 {
     Particle *spark;
     for(int i = 0; i < 6; i++)
@@ -62,7 +62,7 @@ void Bullet::EmitHitSparks(int particle_form)
         float randLifespan = Hax::RandFloatRange(8, 24);
 
         spark = new Particle();
-        spark->Initialize(particle_form, randMoveSpeed, randAngle, randLifespan);
+        spark->Initialize(particle_form, particle_colour, randMoveSpeed, randAngle, randLifespan);
         spark->SetXYPosition(GetXPosition(), GetYPosition());
         Particle::particles.push_back(spark);
     }

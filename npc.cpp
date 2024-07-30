@@ -32,28 +32,28 @@ void NPC::Initialize(int whichHullType, float x_pos, float y_pos, float x_dest, 
         SetMoveSpeed(1.2);
         SetHitboxDimensions(64,64);
         SetMaxHP(50);
-        mainEmitter->Initialize(Bullet::BULLET_FORM_ARROW, 3, 5, 0.33*2*ALLEGRO_PI, 0.25*2*ALLEGRO_PI, 15, 180, 6);
+        mainEmitter->Initialize(Bullet::BULLET_FORM_ARROW, Palette::COLOUR_INDEX_BLUE, 3, 5, 0.33*2*ALLEGRO_PI, 0.25*2*ALLEGRO_PI, 15, 180, 6);
         break;
 
     case HULL_NPC_OCELLUS:
         SetMoveSpeed(1.2);
         SetHitboxDimensions(64,64);
         SetMaxHP(50);
-        mainEmitter->Initialize(Bullet::BULLET_FORM_ROUND, 6, 1, 0.01*2*ALLEGRO_PI, 0.25*2*ALLEGRO_PI, 18, 180, 3);
+        mainEmitter->Initialize(Bullet::BULLET_FORM_ROUND, Palette::COLOUR_INDEX_BLUE, 6, 1, 0.01*2*ALLEGRO_PI, 0.25*2*ALLEGRO_PI, 18, 180, 3);
         break;
 
     case HULL_NPC_ANGELFISH:
         SetMoveSpeed(1.2);
         SetHitboxDimensions(64,64);
         SetMaxHP(50);
-        mainEmitter->Initialize(Bullet::BULLET_FORM_ARROW, 3, 5, 0.33*2*ALLEGRO_PI, 0.25*2*ALLEGRO_PI, 15, 180, 6);
+        mainEmitter->Initialize(Bullet::BULLET_FORM_ARROW, Palette::COLOUR_INDEX_BLUE, 3, 5, 0.33*2*ALLEGRO_PI, 0.25*2*ALLEGRO_PI, 15, 180, 6);
         break;
 
     case HULL_NPC_ANTLION:
         SetMoveSpeed(0.8);
         SetHitboxDimensions(64,64);
         SetMaxHP(50);
-        mainEmitter->Initialize(Bullet::BULLET_FORM_LARGE_ARROW, 12, 1, 0.33*2*ALLEGRO_PI, 0.25*2*ALLEGRO_PI, 15, 60, 1);
+        mainEmitter->Initialize(Bullet::BULLET_FORM_LARGE_ARROW, Palette::COLOUR_INDEX_BLUE, 12, 1, 0.33*2*ALLEGRO_PI, 0.25*2*ALLEGRO_PI, 15, 60, 1);
         break;
 
     }
@@ -130,7 +130,7 @@ void NPC::Logic()
                 {
                     SetCurrentHP(GetCurrentHP() - (*it)->GetDamage());
 
-                    (*it)->EmitHitSparks(Particle::PARTICLE_FORM_NPC_HIT);
+                    (*it)->EmitHitSparks(Particle::PARTICLE_FORM_HIT, Palette::COLOUR_INDEX_BLUE);
                     (*it)->SetIsActive(false);
 
                 }
@@ -168,7 +168,7 @@ void NPC::EmitDeathSparks()
         circleAngle += (2*ALLEGRO_PI)/numSparks;
 
         spark = new Particle();
-        spark->Initialize(Particle::PARTICLE_FORM_NPC_EXPLODE, 10, circleAngle, 16);
+        spark->Initialize(Particle::PARTICLE_FORM_EXPLODE, Palette::COLOUR_INDEX_BLUE, 10, circleAngle, 16);
         spark->SetXYPosition(GetXPosition(), GetYPosition());
         Particle::particles.push_back(spark);
     }

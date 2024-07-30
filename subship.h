@@ -13,16 +13,16 @@
 class Subship : public Ship
 {
     Ship* attachedShip;
-    std::vector<int>assignedLockons;
+    std::vector<size_t>assignedLockons;
 
-    float attachmentAngle;
-    float attachmentRadius;
+    float attachmentAngle{};
+    float attachmentRadius{};
 
-    float attachmentXOffset;
-    float attachmentYOffset;
+    float attachmentXOffset{};
+    float attachmentYOffset{};
 
-    bool isDetached; // When in detached mode, subships obey their own positioning logic instead of having their positions automatically adjusted by the attached ship
-    int phase;
+    bool isDetached{}; // When in detached mode, subships obey their own positioning logic instead of having their positions automatically adjusted by the attached ship
+    int phase{};
     enum enumPhases
     {
         ATTACHED_ORBIT,
@@ -55,6 +55,7 @@ public:
         HULL_SUBSHIP_XIPHOS = 0,
         HULL_SUBSHIP_EFTHYMIA = 1
     };
+    static const int NUM_HULL_TYPES = 2;
 
     Subship();
     ~Subship();
@@ -64,30 +65,29 @@ public:
     void Logic();
     void Drawing();
 
-    float GetAttachmentAngle(){return attachmentAngle;}
+    float GetAttachmentAngle() const {return attachmentAngle;}
     void SetAttachmentAngle(float angle){attachmentAngle = angle;}
-    float GetAttachmentRadius(){return attachmentRadius;}
+    float GetAttachmentRadius() const {return attachmentRadius;}
     void SetAttachmentRadius(float radius){attachmentRadius = radius;}
 
-    float GetAttachmentXOffset(){return attachmentXOffset;}
+    float GetAttachmentXOffset() const { return attachmentXOffset; }
     void SetAttachmentXOffset(float x){ attachmentXOffset = x;}
-    float GetAttachmentYOffset(){return attachmentYOffset;}
+    float GetAttachmentYOffset() const { return attachmentYOffset; }
     void SetAttachmentYOffset(float y){ attachmentYOffset = y;}
     void SetAttachmentXYOffset(float x, float y){ SetAttachmentXOffset(x); SetAttachmentYOffset(y);}
 
     Ship* GetAttachedShip(){return attachedShip;}
     void SetAttachedShip(Ship* attach){attachedShip = attach;}
 
-    float GetIsDetached(){return isDetached;}
+    float GetIsDetached() const { return isDetached; }
     void SetIsDetached(bool is_detached){isDetached = is_detached;}
 
-    int GetPhase(){return phase;}
+    int GetPhase() const { return phase; }
     void SetPhase(int which_phase);
 
-    void AssignLockon(int index){assignedLockons.push_back(index);}
+    void AssignLockon(size_t index){assignedLockons.push_back(index);}
 
     void CreateWarpToTargetAfterimages(float x1, float y1, float x2, float y2);
-
 };
 
 #endif // SUBSHIP_H_INCLUDED

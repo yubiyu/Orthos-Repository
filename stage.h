@@ -15,6 +15,7 @@
 #include "npc.h"
 #include "particle.h"
 #include "lockon.h"
+#include "smartbomb.h"
 #include "generator.h"
 #include "reticle.h"
 

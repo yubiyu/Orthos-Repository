@@ -8,6 +8,7 @@ void Stage::Initialize()
     Generator::Initialize(1);
 
     Lockon::Initialize();
+    Smartbomb::Initialize();
     Frame::Initialize();
     Reticle::Initialize();
 }
@@ -48,6 +49,8 @@ void Stage::Logic()
         (*it).second->SetTrackedTarget(PC::pc);
         it = Generator::stageShipList.erase(it);
     }
+
+    Smartbomb::Logic();
 
     PC::pc->Logic();
 
@@ -125,28 +128,38 @@ void Stage::Input()
     else
         PC::pc->SetFireCommandReceived(false);
 
-    if(Keyboard::keyHoldTicks[Keyboard::KEY_A] >= 1)
+    if(Keyboard::keyHoldTicks[Keyboard::KEY_A] > 0)
     {
         PC::pc->SetXPosition(PC::pc->GetXPosition()-4);
     }
-    if(Keyboard::keyHoldTicks[Keyboard::KEY_D] >= 1)
+    if(Keyboard::keyHoldTicks[Keyboard::KEY_D] > 0)
     {
         PC::pc->SetXPosition(PC::pc->GetXPosition()+4);
     }
-    if(Keyboard::keyHoldTicks[Keyboard::KEY_W] >= 1)
+    if(Keyboard::keyHoldTicks[Keyboard::KEY_W] > 0)
     {
         PC::pc->SetYPosition(PC::pc->GetYPosition()-4);
     }
-    if(Keyboard::keyHoldTicks[Keyboard::KEY_S] >= 1)
+    if(Keyboard::keyHoldTicks[Keyboard::KEY_S] > 0)
     {
         PC::pc->SetYPosition(PC::pc->GetYPosition()+4);
     }
 
-    if(Keyboard::keyHoldTicks[Keyboard::KEY_F] >= 1)
+    if(Keyboard::keyHoldTicks[Keyboard::KEY_F] > 0)
     {
         PC::pc->LockonRelease();
     }
 
+    if (Keyboard::keyHoldTicks[Keyboard::KEY_SPACE] == 1)
+    {
+        Smartbomb::Fire(PC::pc);
+    }
+    if (Keyboard::keyHoldTicks[Keyboard::KEY_LSHIFT] == 1)
+    {
+        Smartbomb::Reset();
+    }
+
+    /*
     if(Keyboard::keyHoldTicks[Keyboard::KEY_K] == 1)
     {
 
@@ -159,6 +172,7 @@ void Stage::Input()
         //}
 
     }
+    */
 
     if(Keyboard::keyHoldTicks[Keyboard::KEY_ESC] == 1)
     {
@@ -180,6 +194,8 @@ void Stage::Drawing()
 
     PC::pc->MainDrawing();
 
+    Smartbomb::Drawing();
+
     for(std::vector<Particle*>::iterator it = Particle::particles.begin(); it != Particle::particles.end(); ++it)
         (*it)->Drawing();
 
@@ -192,7 +208,7 @@ void Stage::Drawing()
 
     al_set_target_bitmap(al_get_backbuffer(Display::display));
     al_clear_to_color(Palette::currentClearColour);
-    al_draw_bitmap(Camera::cameraBuffer, Frame::ARENA_X, Frame::ARENA_Y, 0);
+    al_draw_bitmap(Camera::cameraBuffer, Arena::X_POSITION, Arena::Y_POSITION, 0);
 
     Frame::Drawing();
     Reticle::Drawing();

@@ -15,6 +15,8 @@ ALLEGRO_BITMAP* Image::frameEmitterIconPng;
 ALLEGRO_BITMAP* Image::frameEmitterIconSub[6];
 ALLEGRO_BITMAP* Image::frameSubshipIconPng;
 ALLEGRO_BITMAP* Image::frameSubshipIconSub[6];
+ALLEGRO_BITMAP* Image::frameSmartbombIconPng;
+ALLEGRO_BITMAP* Image::frameSmartbombIconSub[6];
 ALLEGRO_BITMAP* Image::frameLockonBubbleBluePng;
 ALLEGRO_BITMAP* Image::frameLockonBubbleRedPng;
 ALLEGRO_BITMAP* Image::frameLockonBarBluePng;
@@ -28,10 +30,12 @@ ALLEGRO_BITMAP *Image::npcShipPng;
 ALLEGRO_BITMAP *Image::npcShipSub[4];
 
 ALLEGRO_BITMAP* Image::bulletPng;
-ALLEGRO_BITMAP* Image::bulletSub[4];
+ALLEGRO_BITMAP* Image::bulletSub[8];
 
 ALLEGRO_BITMAP* Image::particlePng;
-ALLEGRO_BITMAP* Image::particleSub[5];
+ALLEGRO_BITMAP* Image::particleSub[6];
+
+ALLEGRO_BITMAP* Image::orthosSmartbombPng;
 
 ALLEGRO_BITMAP* Image::reticlePng;
 ALLEGRO_BITMAP* Image::lockonPng;
@@ -72,6 +76,10 @@ void Image::LoadResources()
     for(int i = 0; i < 6; i++)
         frameSubshipIconSub[i] = al_create_sub_bitmap(frameSubshipIconPng, 0, i*0, 64, 64); /// placeholder
 
+    frameSmartbombIconPng = al_load_bitmap("frameSmartbombIcon.png");
+    for (int i = 0; i < 6; i++)
+        frameSmartbombIconSub[i] = al_create_sub_bitmap(frameSmartbombIconPng, 0, i*0, 64, 64); /// placeholder
+
     frameLockonBubbleBluePng = al_load_bitmap("frameLockonBubbleBlue.png");
     frameLockonBubbleRedPng = al_load_bitmap("frameLockonBubbleRed.png");
     frameLockonBarBluePng = al_load_bitmap("frameLockonBarBlue.png");
@@ -88,12 +96,14 @@ void Image::LoadResources()
         npcShipSub[i] = al_create_sub_bitmap(npcShipPng, 0, i*64, 64, 64);
 
     bulletPng = al_load_bitmap("bullet.png");
-    for(int i = 0; i < 4; i++)
+    for(int i = 0; i < 8; i++)
         bulletSub[i] = al_create_sub_bitmap(bulletPng, 0, i*64, 64, 64);
 
     particlePng = al_load_bitmap("particle.png");
-    for(int i = 0; i < 5; i++)
+    for(int i = 0; i < 6; i++)
         particleSub[i] = al_create_sub_bitmap(particlePng, 0, i*64, 64, 64);
+
+    orthosSmartbombPng = al_load_bitmap("orthosSmartbomb.png");
 
     reticlePng = al_load_bitmap("reticle.png");
     lockonPng = al_load_bitmap("lockon.png");
@@ -123,6 +133,10 @@ void Image::UnloadResources()
         al_destroy_bitmap(frameSubshipIconSub[i]);
     al_destroy_bitmap(frameSubshipIconPng);
 
+    for (int i = 0; i < 6; i++)
+        al_destroy_bitmap(frameSmartbombIconSub[i]);
+    al_destroy_bitmap(frameSmartbombIconPng);
+
     al_destroy_bitmap(frameLockonBubbleBluePng);
     al_destroy_bitmap(frameLockonBubbleRedPng);
     al_destroy_bitmap(frameLockonBarBluePng);
@@ -138,13 +152,15 @@ void Image::UnloadResources()
         al_destroy_bitmap(npcShipSub[i]);
     al_destroy_bitmap(npcShipPng);
 
-    for(int i = 0; i < 4; i++)
+    for(int i = 0; i < 8; i++)
         al_destroy_bitmap(bulletSub[i]);
     al_destroy_bitmap(bulletPng);
 
-    for(int i = 0; i < 5; i++)
+    for(int i = 0; i < 6; i++)
         al_destroy_bitmap(particleSub[i]);
     al_destroy_bitmap(particlePng);
+
+    al_destroy_bitmap(orthosSmartbombPng);
 
     al_destroy_bitmap(reticlePng);
     al_destroy_bitmap(lockonPng);

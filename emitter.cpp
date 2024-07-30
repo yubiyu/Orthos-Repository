@@ -10,7 +10,7 @@ Emitter::~Emitter()
 
 }
 
-void Emitter::Initialize(int bullet_form, float bullet_speed, unsigned num_bullets, float fire_arc_length, float fire_angle, int fire_rate, int fire_repeat_rate, int fire_repeat_length)
+void Emitter::Initialize(int bullet_form, int bullet_colour, float bullet_speed, unsigned num_bullets, float fire_arc_length, float fire_angle, int fire_rate, int fire_repeat_rate, int fire_repeat_length)
 {
     Actor::Initialize();
 
@@ -22,6 +22,7 @@ void Emitter::Initialize(int bullet_form, float bullet_speed, unsigned num_bulle
     SetTrackedXYPosition(0,0);
 
     bulletForm = bullet_form;
+    bulletColour = bullet_colour;
     bulletSpeed = bullet_speed;
 
     bulletLifespan = BULLET_BASE_LIFESPAN;
@@ -78,7 +79,7 @@ void Emitter::Logic()
                 {
                     Bullet*bullet;
                     bullet = new Bullet();
-                    bullet->Initialize(bulletForm, bulletSpeed, arcStartAngle + seperationAngle*(bulletPosition+0.5), bulletLifespan);
+                    bullet->Initialize(bulletForm, bulletColour, bulletSpeed, arcStartAngle + seperationAngle*(bulletPosition+0.5), bulletLifespan);
                     bullet->SetXYPosition(GetXPosition(), GetYPosition());
                     if(isNPCEmitter)
                         bullet->SetIsNPCBullet(true);

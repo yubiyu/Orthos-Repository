@@ -14,7 +14,7 @@
 struct Lockon
 {
 private:
-    static std::map<int, int> lockState;
+    static std::map<size_t, int> lockState;
 public:
     enum enumLockonState
     {
@@ -22,13 +22,14 @@ public:
         LOCKON_STATE_ACQUIRED = 1,
         LOCKON_STATE_FIRE_GUIDANCE = 2
     };
-    static std::map<int, int> lockCoherence;
-    static std::map<int, NPC*> lockTargets;
+    static std::map<size_t, int> lockCoherence;
+    static std::map<size_t, NPC*> lockTargets;
 
     static const int BASE_LOCK_COHERENCE = Timer::FPS * 6;
-    static const int NUM_LOCKS = 8;
+    static const size_t NUM_LOCKS = 8;
 
-    static std::map<int, float> lockAnimationScaling;
+    static std::map<size_t, float> lockAnimationScaling;
+
     static float animationScalingRate;
     static constexpr float MIN_LOCK_ANIMATION_SCALING = 1.0;
     static constexpr float MAX_LOCK_ANIMATION_SCALING = 8.0;
@@ -44,12 +45,12 @@ public:
     static void Logic();
     static void Drawing();
 
-    static int GetLockState(int key){return lockState[key];}
-    static void SetLockStateReady(int key);
-    static void SetLockStateAcquired(int key, NPC* target);
-    static void SetLockStateFireGuidance(int key);
+    static size_t GetLockState(size_t key){return lockState[key];}
+    static void SetLockStateReady(size_t key);
+    static void SetLockStateAcquired(size_t key, NPC* target);
+    static void SetLockStateFireGuidance(size_t key);
 
-    static int CountLocksAcquired(){ return lockState.count(LOCKON_STATE_ACQUIRED);}
+    static size_t CountLocksAcquired(){ return lockState.count(LOCKON_STATE_ACQUIRED);}
 
 };
 

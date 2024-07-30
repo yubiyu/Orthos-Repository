@@ -43,7 +43,7 @@ void Audio::Uninitialize()
 
 void Audio::LoadResources()
 {
-    al_reserve_samples(10);
+    al_reserve_samples(16);
 
     genericBgmMp3 = al_load_sample("genericBgmMp3.mp3");
     genericPickupCoinWav = al_load_sample("genericPickupCoinWav.wav");

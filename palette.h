@@ -11,8 +11,14 @@
 
 struct Palette
 {
-    static ALLEGRO_COLOR COL_ORTHOS_BLUE[4];
+    enum enumColourIndexes
+    {
+        COLOUR_INDEX_ORANGE = 0,
+        COLOUR_INDEX_BLUE = 1
+    };
+
     static ALLEGRO_COLOR COL_ORTHOS_ORANGE[4];
+    static ALLEGRO_COLOR COL_ORTHOS_BLUE[4];
     static ALLEGRO_COLOR COL_ORTHOS_BLACK;
     static ALLEGRO_COLOR COL_ORTHOS_WHITE;
 

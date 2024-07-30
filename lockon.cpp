@@ -1,10 +1,10 @@
 #include "lockon.h"
 
-std::map<int, int> Lockon::lockState;
-std::map<int, int> Lockon::lockCoherence;
-std::map<int, NPC*> Lockon::lockTargets;
+std::map<size_t, int> Lockon::lockState;
+std::map<size_t, int> Lockon::lockCoherence;
+std::map<size_t, NPC*> Lockon::lockTargets;
 
-std::map<int, float> Lockon::lockAnimationScaling;
+std::map<size_t, float> Lockon::lockAnimationScaling;
 float Lockon::animationScalingRate;
 
 bool Lockon::isLockCD;
@@ -40,15 +40,15 @@ void Lockon::Logic()
     }
     else // !isLockCD
     {
-        if(Reticle::displayXPosition > Frame::ARENA_X
-                && Reticle::displayXPosition < Frame::ARENA_X + Arena::WIDTH)
+        if(Reticle::displayXPosition > Arena::X_POSITION
+                && Reticle::displayXPosition < Arena::X_POSITION + Arena::WIDTH)
         {
             for(std::vector<NPC*>::iterator it = NPC::npcs.begin(); it != NPC::npcs.end(); ++it)
             {
-                if(Reticle::frameXPosition > (*it)->GetXPosition() - (*it)->GetHitboxWidth()/2
-                        && Reticle::frameXPosition < (*it)->GetXPosition() + (*it)->GetHitboxWidth()/2
-                        && Reticle::frameYPosition > (*it)->GetYPosition() - (*it)->GetHitboxHeight()/2
-                        && Reticle::frameYPosition < (*it)->GetYPosition() + (*it)->GetHitboxHeight()/2)
+                if(Reticle::arenaXPosition > (*it)->GetXPosition() - (*it)->GetHitboxWidth()/2
+                        && Reticle::arenaXPosition < (*it)->GetXPosition() + (*it)->GetHitboxWidth()/2
+                        && Reticle::arenaYPosition > (*it)->GetYPosition() - (*it)->GetHitboxHeight()/2
+                        && Reticle::arenaYPosition < (*it)->GetYPosition() + (*it)->GetHitboxHeight()/2)
                 {
                     for(size_t i = 0; i < NUM_LOCKS; i++)
                     {
@@ -68,11 +68,11 @@ void Lockon::Logic()
 
     for(size_t i = 0; i < NUM_LOCKS; i++)
     {
-        if(lockAnimationScaling[i] > MIN_LOCK_ANIMATION_SCALING)
+        if(lockAnimationScaling.at(i) > MIN_LOCK_ANIMATION_SCALING)
         {
-            lockAnimationScaling[i] -= animationScalingRate;
-            if(lockAnimationScaling[i] < 1.0)
-                lockAnimationScaling[i] = 1.0;
+            lockAnimationScaling.at(i) -= animationScalingRate;
+            if(lockAnimationScaling.at(i) < 1.0)
+                lockAnimationScaling.at(i) = 1.0;
         }
 
         switch(lockState.at(i))
@@ -111,7 +111,7 @@ void Lockon::Drawing()
     }
 }
 
-void Lockon::SetLockStateReady(int key)
+void Lockon::SetLockStateReady(size_t key)
 {
     lockState[key] = LOCKON_STATE_READY;
     lockCoherence[key] = BASE_LOCK_COHERENCE;
@@ -119,7 +119,7 @@ void Lockon::SetLockStateReady(int key)
     lockAnimationScaling[key] = MAX_LOCK_ANIMATION_SCALING;
 }
 
-void Lockon::SetLockStateAcquired(int key, NPC* target)
+void Lockon::SetLockStateAcquired(size_t key, NPC* target)
 {
     isLockCD = true;
     lockState[key] = LOCKON_STATE_ACQUIRED;
@@ -129,7 +129,7 @@ void Lockon::SetLockStateAcquired(int key, NPC* target)
     Audio::AddSfx(Audio::acquireLockWav);
 }
 
-void Lockon::SetLockStateFireGuidance(int key)
+void Lockon::SetLockStateFireGuidance(size_t key)
 {
     lockState[key] = LOCKON_STATE_FIRE_GUIDANCE;
 }

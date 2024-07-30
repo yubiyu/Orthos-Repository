@@ -6,15 +6,17 @@
 #include "timer.h"
 #include "image.h"
 
+#include "arena.h"
+
+#include "palette.h"
+
 #include <vector>
 #include <cmath>
 #include <iostream>
 
-#include "arena.h"
-
 class Particle : public Actor
 {
-
+    int colour;
     int lifespanElasped, lifespan;
     static const int BASE_PARTICLE_LIFESPAN = Timer::FPS *0.5;
 
@@ -25,22 +27,22 @@ public:
 
     enum enumParticleForms
     {
-        PARTICLE_FORM_PC_HIT = 0,
-        PARTICLE_FORM_PC_EXPLODE = 1,
-
-        PARTICLE_FORM_NPC_HIT = 2,
-        PARTICLE_FORM_NPC_EXPLODE = 3,
-
-        PARTICLE_FORM_SUBSHIP_XIPHOS_AFTERIMAGE = 4
+        PARTICLE_FORM_HIT = 0,
+        PARTICLE_FORM_EXPLODE = 1,
+        PARTICLE_FORM_SUBSHIP_XIPHOS_AFTERIMAGE = 2
     };
+    static const int NUM_PARTICLE_FORMS = 3;
 
     Particle();
     ~Particle();
 
-    void Initialize(int form, float speed, float angle, int lifespan);
+    void Initialize(int form, int colour, float speed, float angle, int lifespan);
 
     void Logic();
     void Drawing();
+
+    int GetColour(){return colour;}
+    void SetColour(int which_colour){colour = which_colour;}
 
     void SetLifespan(int cycles)
     {
