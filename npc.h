@@ -5,8 +5,10 @@
 
 #include "particle.h"
 #include "emitter.h"
+#include "flyingtext.h"
 
 #include "arena.h"
+#include "score.h"
 
 #include <cmath>
 #include <iostream>
@@ -23,12 +25,13 @@ class NPC : public Ship
         MOVE_AI_SHADOW_SHIP
     };
 
+    float scoreValue{};
 
-    int moveAI;
-    float xDestination, yDestination;
+    int moveAI{};
+    float xDestination{}, yDestination{};
 
     Ship *shadowedShip;
-    float shadowingXDisplacement, shadowingYDisplacement;
+    float shadowingXDisplacement{}, shadowingYDisplacement{};
 
     Emitter *mainEmitter;
 
@@ -55,15 +58,17 @@ public:
 
     void EmitDeathSparks();
 
+    float GetScoreValue() const { return scoreValue; }
+    void SetScoreValue(float score_value) { scoreValue = score_value; }
     void SetMoveAI(int move_ai){moveAI = move_ai;}
     void SetXDestination(float x){xDestination = x;}
     void SetYDestination(float y){yDestination = y;}
     void SetXYDestination(float x, float y){SetXDestination(x); SetYDestination(y);}
 
     void SetShadowedShip(Ship* target){shadowedShip = target;}
-    float GetShadowingXDisplacement(float x){return shadowingXDisplacement;}
+    float GetShadowingXDisplacement(float x) const { return shadowingXDisplacement; }
     void SetShadowingXDisplacement(float x){shadowingXDisplacement = x;}
-    float GetShadowingYDisplacement(float y){return shadowingYDisplacement;}
+    float GetShadowingYDisplacement(float y) const { return shadowingYDisplacement; }
     void SetShadowingYDisplacement(float y){shadowingYDisplacement = y;}
     void SetShadowingXYDisplacement(float x, float y){SetShadowingXDisplacement(x), SetShadowingYDisplacement(y);}
 

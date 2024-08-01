@@ -18,6 +18,8 @@
 #include "smartbomb.h"
 #include "generator.h"
 #include "reticle.h"
+#include "score.h"
+#include "flyingtext.h"
 
 #include "tile.h"
 #include "camera.h"

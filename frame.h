@@ -83,21 +83,6 @@ struct Frame
     static void Drawing();
 
     static void UpdateScoreString(int score);
-
-    static void UpdateSmartbombInfo()
-    {
-
-    }
-    static void UpdateWeaponInfo()
-    {
-
-    }
-    static void UpdateSubshipInfo()
-    {
-
-    }
-
-
 };
 
 #endif // FRAME_H_INCLUDED

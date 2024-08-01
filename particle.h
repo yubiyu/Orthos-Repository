@@ -16,8 +16,8 @@
 
 class Particle : public Actor
 {
-    int colour;
-    int lifespanElasped, lifespan;
+    int colour{};
+    int lifespanElasped{}, lifespan{};
     static const int BASE_PARTICLE_LIFESPAN = Timer::FPS *0.5;
 
     int form;

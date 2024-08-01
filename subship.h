@@ -33,17 +33,17 @@ class Subship : public Ship
         DETACHED_RETURN_WARP // Warp back to attachment position, ending detached mode
     };
 
-    float warpToTargetAngle;
-    float warpToTargetRadius;
+    float warpToTargetAngle{};
+    float warpToTargetRadius{};
     const float WARP_TO_TARGET_RADIUS_MIN = 64;
     const float WARP_TO_TARGET_RADIUS_MAX = 256;
-    int warpToTargetDelay;
+    int warpToTargetDelay{};
     const int WARP_TO_TARGET_DELAY_PERIOD = Timer::FPS * 0.2;
 
-    int attackTargetDelay;
+    int attackTargetDelay{};
     const int ATTACK_TARGET_DELAY_PERIOD = Timer::FPS * 0.3;
 
-    int returnWarpDelay;
+    int returnWarpDelay{};
     const int RETURN_WARP_DELAY_PERIOD = Timer::FPS * 0.2;
 
     Emitter *mainEmitter;

@@ -5,18 +5,16 @@ void Stage::Initialize()
     PC::pc = new PC();
     PC::pc->PC::Initialize(PC::HULL_PC_ORTHOS_A);
 
-    Generator::Initialize(1);
-
     Lockon::Initialize();
     Smartbomb::Initialize();
     Frame::Initialize();
     Reticle::Initialize();
+    Score::Initialize();
+    Generator::Initialize(1);
 }
 
 void Stage::Uninitialize()
 {
-    delete PC::pc;
-    PC::pc = nullptr;
 
     for(std::vector<Bullet*>::iterator it = Bullet::bullets.begin(); it != Bullet::bullets.end();)
     {
@@ -24,15 +22,31 @@ void Stage::Uninitialize()
         *it = nullptr;
         it = Bullet::bullets.erase(it);
     }
+    for (std::vector<Particle*>::iterator it = Particle::particles.begin(); it != Particle::particles.end();)
+    {
+        delete *it;
+        *it = nullptr;
+        it = Particle::particles.erase(it);
+    }
+
     for(std::vector<NPC*>::iterator it = NPC::npcs.begin(); it != NPC::npcs.end();)
     {
         delete *it;
         *it = nullptr;
         it = NPC::npcs.erase(it);
     }
+    for (std::vector<FlyingText*>::iterator it = FlyingText::flyingTexts.begin(); it != FlyingText::flyingTexts.end();)
+    {
+        delete* it;
+        *it = nullptr;
+        it = FlyingText::flyingTexts.erase(it);
+    }
 
-    Generator::Uninitialize();
+    delete PC::pc;
+    PC::pc = nullptr;
+
     Lockon::Uninitialize();
+    Generator::Uninitialize();
 }
 
 void Stage::Logic()
@@ -96,6 +110,21 @@ void Stage::Logic()
             delete *it;
             *it = nullptr;
             it = Particle::particles.erase(it);
+        }
+    }
+
+    for (std::vector<FlyingText*>::iterator it = FlyingText::flyingTexts.begin(); it != FlyingText::flyingTexts.end();)
+    {
+        if ((*it)->GetIsActive())
+        {
+            (*it)->Logic();
+            ++it;
+        }
+        else
+        {
+            delete* it;
+            *it = nullptr;
+            it = FlyingText::flyingTexts.erase(it);
         }
     }
 }
@@ -205,6 +234,9 @@ void Stage::Drawing()
         (*it)->Drawing();
 
     Lockon::Drawing();
+
+    for(std::vector<FlyingText*>::iterator it = FlyingText::flyingTexts.begin(); it != FlyingText::flyingTexts.end(); ++it)
+        (*it)->Drawing();
 
     al_set_target_bitmap(al_get_backbuffer(Display::display));
     al_clear_to_color(Palette::currentClearColour);

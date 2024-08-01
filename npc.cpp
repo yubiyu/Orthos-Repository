@@ -5,6 +5,7 @@ std::vector<NPC*> NPC::npcs;
 NPC::NPC()
 {
     mainEmitter = nullptr;
+    shadowedShip = nullptr;
 }
 
 NPC::~NPC()
@@ -21,6 +22,8 @@ void NPC::Initialize(int whichHullType, float x_pos, float y_pos, float x_dest, 
     Ship::Initialize();
     Ship::SetHullType(whichHullType);
 
+    SetScoreValue(Score::value[Score::SCORE_TIER_POPCORN_SHIP]);
+
     SetXYPosition(x_pos, y_pos);
     SetXYDestination(x_dest, y_dest);
 
@@ -29,6 +32,7 @@ void NPC::Initialize(int whichHullType, float x_pos, float y_pos, float x_dest, 
     switch(Ship::GetHullType())
     {
     case HULL_NPC_RAY:
+        SetScoreValue(Score::value[Score::SCORE_TIER_SMALL_SHIP]);
         SetMoveSpeed(1.2);
         SetHitboxDimensions(64,64);
         SetMaxHP(50);
@@ -36,6 +40,7 @@ void NPC::Initialize(int whichHullType, float x_pos, float y_pos, float x_dest, 
         break;
 
     case HULL_NPC_OCELLUS:
+        SetScoreValue(Score::value[Score::SCORE_TIER_SMALL_SHIP]);
         SetMoveSpeed(1.2);
         SetHitboxDimensions(64,64);
         SetMaxHP(50);
@@ -43,6 +48,7 @@ void NPC::Initialize(int whichHullType, float x_pos, float y_pos, float x_dest, 
         break;
 
     case HULL_NPC_ANGELFISH:
+        SetScoreValue(Score::value[Score::SCORE_TIER_SMALL_SHIP]);
         SetMoveSpeed(1.2);
         SetHitboxDimensions(64,64);
         SetMaxHP(50);
@@ -50,6 +56,7 @@ void NPC::Initialize(int whichHullType, float x_pos, float y_pos, float x_dest, 
         break;
 
     case HULL_NPC_ANTLION:
+        SetScoreValue(Score::value[Score::SCORE_TIER_SMALL_SHIP]);
         SetMoveSpeed(0.8);
         SetHitboxDimensions(64,64);
         SetMaxHP(50);
@@ -61,7 +68,6 @@ void NPC::Initialize(int whichHullType, float x_pos, float y_pos, float x_dest, 
 
     SetMoveAI(MOVE_AI_APPROACH_DESTINATION);
     SetMoveAngle(0.25 * 2*ALLEGRO_PI);
-
 }
 
 void NPC::Logic()
@@ -98,6 +104,10 @@ void NPC::Logic()
         {
             EmitDeathSparks();
             SetIsAlive(false);
+            Score::AddValue(scoreValue);
+            FlyingText* scoreText = new FlyingText();
+            scoreText->Initialize(scoreValue, GetXPosition(), GetYPosition());
+            FlyingText::flyingTexts.push_back(scoreText);
         }
 
         SetSpriteRotation(GetMoveAngle());
